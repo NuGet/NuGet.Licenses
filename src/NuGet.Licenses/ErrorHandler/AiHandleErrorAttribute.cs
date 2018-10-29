@@ -14,7 +14,7 @@ namespace NuGet.Licenses.ErrorHandler
         {
             if (filterContext != null && filterContext.HttpContext != null && filterContext.Exception != null)
             {
-                //If customError is Off, then AI HTTPModule will report the exception
+                // If customError is Off, then AI HTTPModule will report the exception
                 if (filterContext.HttpContext.IsCustomErrorEnabled)
                 {
                     var ai = new TelemetryClient();
