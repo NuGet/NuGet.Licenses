@@ -12,9 +12,14 @@ namespace NuGet.Licenses
         {
             routes.MapRoute(
                 name: "Default",
-                url: "{*url}",
+                url: "",
                 defaults: new { controller = "License", action = "Index" }
             );
+
+            routes.MapRoute(
+                name: "LicenseExpression",
+                url: "{licenseExpression}",
+                defaults: new { controller = "License", action = "DisplayLicense" });
         }
     }
 }

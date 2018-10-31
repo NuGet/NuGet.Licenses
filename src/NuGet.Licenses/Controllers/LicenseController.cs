@@ -11,5 +11,10 @@ namespace NuGet.Licenses.Controllers
         {
             return Redirect("https://github.com/NuGet/Home/wiki/Packaging-License-within-the-nupkg");
         }
+
+        public ActionResult DisplayLicense(string licenseExpression)
+        {
+            return Content(licenseExpression);
+        }
     }
 }
