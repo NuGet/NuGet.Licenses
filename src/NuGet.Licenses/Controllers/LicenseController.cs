@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace NuGet.Licenses.Controllers
 {
-    public class HomeController : Controller
+    public class LicenseController : Controller
     {
         public ActionResult Index()
         {
