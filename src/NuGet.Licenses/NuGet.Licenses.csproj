@@ -95,6 +95,9 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Autofac.Mvc5">
+      <Version>4.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.ApplicationInsights.Web">
       <Version>2.4.1</Version>
     </PackageReference>
