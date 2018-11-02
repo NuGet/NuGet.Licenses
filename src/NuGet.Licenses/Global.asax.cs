@@ -1,15 +1,18 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Autofac;
-using Autofac.Integration.Mvc;
-using Microsoft.ApplicationInsights.Extensibility;
 using System.Net;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.Mvc;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.Logging;
+using Serilog;
+
 
 namespace NuGet.Licenses
 {
@@ -19,6 +22,7 @@ namespace NuGet.Licenses
         {
             SetupInstrumentation();
             SetupSsl();
+            SetupLogging();
             SetupDi();
 
             AreaRegistration.RegisterAllAreas();
@@ -27,9 +31,24 @@ namespace NuGet.Licenses
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
+        private static string InstrumentationKey => WebConfigurationManager.AppSettings["Licenses.InstrumentationKey"];
+
+        private void SetupLogging()
+        {
+            var loggerConfiguration = new LoggerConfiguration();
+
+            if (!string.IsNullOrWhiteSpace(InstrumentationKey))
+            { 
+                loggerConfiguration = loggerConfiguration
+                    .WriteTo.ApplicationInsightsTraces(InstrumentationKey);
+            }
+
+            Log.Logger = loggerConfiguration.CreateLogger();
+        }
+
         private static void SetupInstrumentation()
         {
-            TelemetryConfiguration.Active.InstrumentationKey = WebConfigurationManager.AppSettings["Licenses.InstrumentationKey"];
+            TelemetryConfiguration.Active.InstrumentationKey = InstrumentationKey;
         }
 
         private static void SetupSsl()
@@ -43,6 +62,18 @@ namespace NuGet.Licenses
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddSerilog();
+            builder
+                .RegisterInstance(loggerFactory)
+                .As<ILoggerFactory>();
+
+            builder
+                .RegisterGeneric(typeof(Logger<>))
+                .As(typeof(ILogger<>))
+                .SingleInstance();
+
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
