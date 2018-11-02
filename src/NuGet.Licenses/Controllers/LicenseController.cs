@@ -36,6 +36,7 @@ namespace NuGet.Licenses.Controllers
                 if (!license.IsStandardLicense)
                 {
                     // TODO: 404?
+                    return HttpNotFound();
                 }
 
                 // root of the message can only be license if it's a simple license expression.
@@ -55,12 +56,12 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayLicense(NuGetLicense license)
         {
-            return Content("license: " + license.Identifier);
+            return View((object)("license: " + license.Identifier));
         }
 
-        private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot)
+        private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
         {
-
+            throw new NotImplementedException();
         }
     }
 }
