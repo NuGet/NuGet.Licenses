@@ -48,7 +48,8 @@ namespace NuGet.Licenses.Controllers
 
                 // TODO: if licenseExpressionRoot == null something went really wrong.
 
-                return Content(licenseExpression);
+                return DisplayComplexLicenseExpression(complexLicenseExpressionRoot, licenseExpression);
+                //return Content(licenseExpression);
             }
 
             return Content("WAT");
