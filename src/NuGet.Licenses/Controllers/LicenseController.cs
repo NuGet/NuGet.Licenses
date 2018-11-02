@@ -3,6 +3,7 @@
 
 using System;
 using System.Web.Mvc;
+using NuGet.Licenses.Models;
 using NuGet.Packaging.Licenses;
 
 namespace NuGet.Licenses.Controllers
@@ -23,8 +24,8 @@ namespace NuGet.Licenses.Controllers
                 licenseExpressionRootNode = NuGetLicenseExpression.Parse(licenseExpression);
             }
             catch (NuGetLicenseExpressionParsingException e)
-            {
-                throw new InvalidOperationException();
+            { 
+                throw new InvalidOperationException($"Failed to parse license expression: {licenseExpression}", e);
             }
 
             if (licenseExpressionRootNode.Type == LicenseExpressionType.License)
@@ -35,8 +36,7 @@ namespace NuGet.Licenses.Controllers
 
                 if (!license.IsStandardLicense)
                 {
-                    // TODO: 404?
-                    return HttpNotFound();
+                    return UnknownLicense(license);
                 }
 
                 // root of the message can only be license if it's a simple license expression.
@@ -52,12 +52,18 @@ namespace NuGet.Licenses.Controllers
                 //return Content(licenseExpression);
             }
 
-            return Content("WAT");
+            throw new InvalidOperationException($"Unexpected license expression root node type: {licenseExpressionRootNode.Type}");
+        }
+
+        private ActionResult UnknownLicense(NuGetLicense license)
+        {
+            Response.StatusCode = 404;
+            return View("UnknownLicense", new UnknownLicenseModel(license.Identifier));
         }
 
         private ActionResult DisplayLicense(NuGetLicense license)
         {
-            return View((object)("license: " + license.Identifier));
+            return View(new SingleLicenseInformationModel(license.Identifier, "<license text placeholder>"));
         }
 
         private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)

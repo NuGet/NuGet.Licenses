@@ -1,8 +1,8 @@
-﻿@model System.String
+﻿@model NuGet.Licenses.Models.SingleLicenseInformationModel
 @{
-    ViewBag.Title = "DisplayLicense";
+    ViewBag.Title = "License text reference";
 }
 
-<h2>DisplayLicense</h2>
+<h2>@Model.Title</h2>
 
-@Model
+@Model.Text
