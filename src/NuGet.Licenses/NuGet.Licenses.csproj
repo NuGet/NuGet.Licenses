@@ -69,6 +69,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Models\ComplexLicenseExpressionRun.cs" />
+    <Compile Include="Models\ComplexLicenseExpressionRunType.cs" />
+    <Compile Include="Models\ComplexLicenseExpressionViewModel.cs" />
     <Compile Include="Controllers\LicenseController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -77,6 +80,7 @@
     <Compile Include="Models\SingleLicenseInformationModel.cs" />
     <Compile Include="Models\UnknownLicenseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\LicenseExpressionSplitter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -94,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.Web">
@@ -148,6 +151,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\License\UnknownLicense.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\License\InvalidRequest.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\License\ComplexLicenseExpression.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

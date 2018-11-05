@@ -1,0 +1,23 @@
+﻿@model NuGet.Licenses.Models.ComplexLicenseExpressionViewModel
+@using NuGet.Licenses.Models
+
+@functions {
+    static string GetRunSpecificClass(ComplexLicenseExpressionRunType runType)
+    {
+        return runType.ToString().ToLowerInvariant();
+    }
+}
+
+<p id="license-expression">
+@foreach(var run in Model.Runs)
+{
+    if (run.Type == ComplexLicenseExpressionRunType.LicenseIdentifier || run.Type == ComplexLicenseExpressionRunType.ExceptionIdentifier)
+    {
+        <a href="@run.Value">@run.Value</a>
+    }
+    else
+    {
+    <span class="license-expression-element @GetRunSpecificClass(run.Type)">@run.Value</span>
+    }
+}
+</p>

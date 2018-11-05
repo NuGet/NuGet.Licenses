@@ -2,8 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using NuGet.Licenses.Models;
+using NuGet.Licenses.Services;
 using NuGet.Packaging.Licenses;
 
 namespace NuGet.Licenses.Controllers
@@ -19,8 +21,14 @@ namespace NuGet.Licenses.Controllers
         {
             NuGetLicenseExpression licenseExpressionRootNode;
 
+            if (licenseExpression == null || licenseExpression.Length > 500)
+            {
+                return InvalidRequest();
+            }
+
             try
             {
+                // TODO: license expression might be an exception
                 licenseExpressionRootNode = NuGetLicenseExpression.Parse(licenseExpression);
             }
             catch (NuGetLicenseExpressionParsingException e)
@@ -55,6 +63,12 @@ namespace NuGet.Licenses.Controllers
             throw new InvalidOperationException($"Unexpected license expression root node type: {licenseExpressionRootNode.Type}");
         }
 
+        private ActionResult InvalidRequest()
+        {
+            Response.StatusCode = 400;
+            return View("InvalidRequest");
+        }
+
         private ActionResult UnknownLicense(NuGetLicense license)
         {
             Response.StatusCode = 404;
@@ -68,7 +82,44 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
         {
-            throw new NotImplementedException();
+            // TODO: DI this
+            var splitter = new LicenseExpressionSplitter();
+            var runs = splitter.GetLicenseExpressionRuns(licenseExpressionRoot);
+
+            var fullRuns = SplitOriginalExpression(licenseExpression, runs);
+
+            return View("ComplexLicenseExpression", new ComplexLicenseExpressionViewModel(fullRuns));
+        }
+
+        private List<ComplexLicenseExpressionRun> SplitOriginalExpression(string licenseExpression, IReadOnlyCollection<ComplexLicenseExpressionRun> runs)
+        {
+            var fullRunList = new List<ComplexLicenseExpressionRun>();
+            var startIndex = 0;
+            foreach (var run in runs)
+            {
+                var currentRunStartIndex = licenseExpression.IndexOf(run.Value, startIndex);
+                if (currentRunStartIndex < 0)
+                {
+                    throw new InvalidOperationException($"Unable to find '{run.Value}' portion of the license expression starting from {startIndex} in '{licenseExpression}'");
+                }
+                if (currentRunStartIndex > startIndex)
+                {
+                    fullRunList.Add(
+                        new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex, currentRunStartIndex - startIndex),
+                        ComplexLicenseExpressionRunType.Other));
+                }
+                fullRunList.Add(run);
+                startIndex = currentRunStartIndex + run.Value.Length;
+            }
+
+            if (startIndex < licenseExpression.Length)
+            {
+                fullRunList.Add(
+                    new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex),
+                    ComplexLicenseExpressionRunType.Other));
+            }
+
+            return fullRunList;
         }
     }
 }
