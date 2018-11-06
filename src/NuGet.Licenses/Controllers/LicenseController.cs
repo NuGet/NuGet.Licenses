@@ -85,41 +85,9 @@ namespace NuGet.Licenses.Controllers
             // TODO: DI this
             var splitter = new LicenseExpressionSplitter();
             var runs = splitter.GetLicenseExpressionRuns(licenseExpressionRoot);
-
-            var fullRuns = SplitOriginalExpression(licenseExpression, runs);
+            var fullRuns = splitter.SplitFullExpression(licenseExpression, runs);
 
             return View("ComplexLicenseExpression", new ComplexLicenseExpressionViewModel(fullRuns));
-        }
-
-        private List<ComplexLicenseExpressionRun> SplitOriginalExpression(string licenseExpression, IReadOnlyCollection<ComplexLicenseExpressionRun> runs)
-        {
-            var fullRunList = new List<ComplexLicenseExpressionRun>();
-            var startIndex = 0;
-            foreach (var run in runs)
-            {
-                var currentRunStartIndex = licenseExpression.IndexOf(run.Value, startIndex);
-                if (currentRunStartIndex < 0)
-                {
-                    throw new InvalidOperationException($"Unable to find '{run.Value}' portion of the license expression starting from {startIndex} in '{licenseExpression}'");
-                }
-                if (currentRunStartIndex > startIndex)
-                {
-                    fullRunList.Add(
-                        new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex, currentRunStartIndex - startIndex),
-                        ComplexLicenseExpressionRunType.Other));
-                }
-                fullRunList.Add(run);
-                startIndex = currentRunStartIndex + run.Value.Length;
-            }
-
-            if (startIndex < licenseExpression.Length)
-            {
-                fullRunList.Add(
-                    new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex),
-                    ComplexLicenseExpressionRunType.Other));
-            }
-
-            return fullRunList;
         }
     }
 }

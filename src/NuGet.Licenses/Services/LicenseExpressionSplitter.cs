@@ -17,10 +17,65 @@ namespace NuGet.Licenses.Services
         /// <returns>The list of license expression token in the order they appeared in the original expression.</returns>
         public List<ComplexLicenseExpressionRun> GetLicenseExpressionRuns(LicenseOperator licenseExpressionRoot)
         {
+            if (licenseExpressionRoot == null)
+            {
+                throw new ArgumentNullException(nameof(licenseExpressionRoot));
+            }
+
             var runList = new List<ComplexLicenseExpressionRun>();
             InOrderTraversal(licenseExpressionRoot, runList);
             return runList;
         }
+
+        /// <summary>
+        /// Given the original license expression and list of runs produced by <see cref="GetLicenseExpressionRuns"/>
+        /// produces full split of the expression into list of runs that include all the characters of the original
+        /// license expression (including the parentheses and whitespace).
+        /// </summary>
+        /// <param name="licenseExpression">Original license expression.</param>
+        /// <param name="runs">List of runs produced by <see cref="GetLicenseExpressionRuns"/></param>
+        /// <returns>List of runs including the characters that are lost during expression parsing</returns>
+        public List<ComplexLicenseExpressionRun> SplitFullExpression(string licenseExpression, IReadOnlyCollection<ComplexLicenseExpressionRun> runs)
+        {
+            if (licenseExpression == null)
+            {
+                throw new ArgumentNullException(nameof(licenseExpression));
+            }
+
+            if (runs == null)
+            {
+                throw new ArgumentNullException(nameof(runs));
+            }
+
+            var fullRunList = new List<ComplexLicenseExpressionRun>();
+            var startIndex = 0;
+            foreach (var run in runs)
+            {
+                var currentRunStartIndex = licenseExpression.IndexOf(run.Value, startIndex);
+                if (currentRunStartIndex < 0)
+                {
+                    throw new InvalidOperationException($"Unable to find '{run.Value}' portion of the license expression starting from {startIndex} in '{licenseExpression}'");
+                }
+                if (currentRunStartIndex > startIndex)
+                {
+                    fullRunList.Add(
+                        new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex, currentRunStartIndex - startIndex),
+                        ComplexLicenseExpressionRunType.Other));
+                }
+                fullRunList.Add(run);
+                startIndex = currentRunStartIndex + run.Value.Length;
+            }
+
+            if (startIndex < licenseExpression.Length)
+            {
+                fullRunList.Add(
+                    new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex),
+                    ComplexLicenseExpressionRunType.Other));
+            }
+
+            return fullRunList;
+        }
+
 
         private static void InOrderTraversal(NuGetLicenseExpression root, List<ComplexLicenseExpressionRun> runList)
         {
