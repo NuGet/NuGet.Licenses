@@ -23,7 +23,7 @@ namespace NuGet.Licenses
             SetupInstrumentation();
             SetupSsl();
             SetupLogging();
-            SetupDi();
+            SetupDependencyInjection();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -58,7 +58,7 @@ namespace NuGet.Licenses
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
         }
 
-        private static void SetupDi()
+        private static void SetupDependencyInjection()
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
