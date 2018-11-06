@@ -24,6 +24,7 @@ namespace NuGet.Licenses.Tests
             new object[] { "(((MIT  OR ISC)))", new[] { License("MIT"), Or(), License("ISC") } },
             new object[] { "(((MIT)) OR  ((ISC)))", new[] { License("MIT"), Or(), License("ISC") } },
             new object[] { "(MIT OR ISC  WITH Classpath-exception-2.0)", new[] { License("MIT"), Or(), License("ISC"), With(), Exception("Classpath-exception-2.0") } },
+            new object[] { "(MIT+ OR  ((ISC)))", new[] { License("MIT"), Operator("+"), Or(), License("ISC") } },
         };
 
         [Theory]

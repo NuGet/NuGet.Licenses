@@ -11,6 +11,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Logging;
+using NuGet.Licenses.Services;
 using Serilog;
 
 
@@ -73,6 +74,11 @@ namespace NuGet.Licenses
                 .RegisterGeneric(typeof(Logger<>))
                 .As(typeof(ILogger<>))
                 .SingleInstance();
+
+            builder
+                .RegisterType<LicenseExpressionSplitter>()
+                .As<ILicenseExpressionSplitter>()
+                .InstancePerLifetimeScope();
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
