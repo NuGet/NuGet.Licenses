@@ -6,35 +6,30 @@
     {
         return runType.ToString().ToLowerInvariant().Replace("identifier", "");
     }
+
+    static bool IsLicenseOrException(CompositeLicenseExpressionRun run)
+    {
+        return run.Type == CompositeLicenseExpressionRunType.LicenseIdentifier || run.Type == CompositeLicenseExpressionRunType.ExceptionIdentifier;
+    }
 }
 
 @helper MakeLink(CompositeLicenseExpressionRun run) {<a href="@run.Value" class="@GetRunSpecificClass(run.Type)">@run.Value</a>}
-@helper MakeSpan(CompositeLicenseExpressionRun run) {
-#line default
-#line hidden
-    return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+@helper MakeSpan(CompositeLicenseExpressionRun run) {<span class="@GetRunSpecificClass(run.Type)">@run.Value</span>}
 
-    n
-#line 11 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"
-                                                           __o = GetRunSpecificClass(run.Type);
+<p>
+    Composite license expression:
+</p>
 
-
-#line default
-#line hidden
-
-#line 12 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"
-    __o = run.Value;
-
-
-
-
-#line default
-#line hidden{
-#line 13 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"
-
-
-#line default
-#line hidden
-    });
-
-#line 14 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"
+<div id="license-expression">
+    @foreach (var run in Model.Runs)
+    {
+        if (IsLicenseOrException(run))
+        {
+            @MakeLink(run);
+        }
+        else
+        {
+            @MakeSpan(run);
+        }
+    }
+</div>
