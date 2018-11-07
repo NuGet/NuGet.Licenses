@@ -14,13 +14,16 @@ namespace NuGet.Licenses.Controllers
     {
         private readonly ILicenseExpressionSplitter _licenseExpressionSplitter;
         private readonly ILogger<LicenseController> _logger;
+        private readonly ILicenseFileService _licenseFileService;
 
         public LicenseController(
             ILicenseExpressionSplitter licenseExpressionSplitter,
-            ILogger<LicenseController> logger)
+            ILogger<LicenseController> logger,
+            ILicenseFileService licenseFileService)
         {
             _licenseExpressionSplitter = licenseExpressionSplitter ?? throw new ArgumentNullException(nameof(licenseExpressionSplitter));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _licenseFileService = licenseFileService ?? throw new ArgumentNullException(nameof(licenseFileService));
         }
 
         public ActionResult Index()
@@ -108,7 +111,24 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayLicense(NuGetLicense license)
         {
-            return View(new SingleLicenseInformationModel(license.Identifier, "<license text placeholder>"));
+            if (license == null)
+            {
+                throw new ArgumentNullException(nameof(license));
+            }
+
+            string licenseFilePath = _licenseFileService.GetLicenseFilePath(license.Identifier);
+            if (!_licenseFileService.IsLicenseFilePathAllowed(licenseFilePath))
+            {
+                return InvalidRequest();
+            }
+
+            if (!_licenseFileService.IsLicenseFileExisted(licenseFilePath))
+            {
+                return UnknownLicense(license);
+            }
+
+            string licenseContent = _licenseFileService.GetLicenseFileContent(licenseFilePath);
+            return View(new SingleLicenseInformationModel(license.Identifier, licenseContent));
         }
 
         private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
