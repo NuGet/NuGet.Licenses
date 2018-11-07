@@ -15,3 +15,11 @@ pre {
 #issue-id {
     color: #AAA;
 }
+
+#license-expression {
+    font-family: Consolas, monospace;
+}
+
+#license-expression > .operator {
+    font-weight: bold;
+}
