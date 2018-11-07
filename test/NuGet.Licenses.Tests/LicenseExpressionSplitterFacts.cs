@@ -29,7 +29,7 @@ namespace NuGet.Licenses.Tests
 
         [Theory]
         [MemberData(nameof(LicenseExpressionsAndRuns))]
-        public void ProducesProperSequenceOfRuns(string licenseExpression, ComplexLicenseExpressionRun[] expectedSequence)
+        public void ProducesProperSequenceOfRuns(string licenseExpression, CompositeLicenseExpressionRun[] expectedSequence)
         {
             var expressionTreeRoot = NuGetLicenseExpression.Parse(licenseExpression);
 
@@ -45,7 +45,7 @@ namespace NuGet.Licenses.Tests
         [Fact]
         public void ThrowsWhenLicenseExpressionIsNull()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => _target.SplitFullExpression(null, new ComplexLicenseExpressionRun[0]));
+            var ex = Assert.Throws<ArgumentNullException>(() => _target.SplitFullExpression(null, new CompositeLicenseExpressionRun[0]));
             Assert.Equal("licenseExpression", ex.ParamName);
         }
 
@@ -82,7 +82,7 @@ namespace NuGet.Licenses.Tests
 
         [Theory]
         [MemberData(nameof(LicenseExpressionsAndRuns))]
-        public void AddsParenthesesAndWhitespace(string licenseExpression, ComplexLicenseExpressionRun[] runs, ComplexLicenseExpressionRun[] expectedRuns)
+        public void AddsParenthesesAndWhitespace(string licenseExpression, CompositeLicenseExpressionRun[] runs, CompositeLicenseExpressionRun[] expectedRuns)
         {
             var result = _target.SplitFullExpression(licenseExpression, runs);
 
@@ -100,26 +100,26 @@ namespace NuGet.Licenses.Tests
             _target = new LicenseExpressionSplitter();
         }
 
-        protected static ComplexLicenseExpressionRun License(string licenseId)
-            => new ComplexLicenseExpressionRun(licenseId, ComplexLicenseExpressionRunType.LicenseIdentifier);
+        protected static CompositeLicenseExpressionRun License(string licenseId)
+            => new CompositeLicenseExpressionRun(licenseId, CompositeLicenseExpressionRunType.LicenseIdentifier);
 
-        protected static ComplexLicenseExpressionRun Operator(string operatorName)
-            => new ComplexLicenseExpressionRun(operatorName, ComplexLicenseExpressionRunType.Operator);
+        protected static CompositeLicenseExpressionRun Operator(string operatorName)
+            => new CompositeLicenseExpressionRun(operatorName, CompositeLicenseExpressionRunType.Operator);
 
-        protected static ComplexLicenseExpressionRun Exception(string exceptionId)
-            => new ComplexLicenseExpressionRun(exceptionId, ComplexLicenseExpressionRunType.ExceptionIdentifier);
+        protected static CompositeLicenseExpressionRun Exception(string exceptionId)
+            => new CompositeLicenseExpressionRun(exceptionId, CompositeLicenseExpressionRunType.ExceptionIdentifier);
 
-        protected static ComplexLicenseExpressionRun Or() => Operator("OR");
-        protected static ComplexLicenseExpressionRun And() => Operator("AND");
-        protected static ComplexLicenseExpressionRun With() => Operator("WITH");
+        protected static CompositeLicenseExpressionRun Or() => Operator("OR");
+        protected static CompositeLicenseExpressionRun And() => Operator("AND");
+        protected static CompositeLicenseExpressionRun With() => Operator("WITH");
 
-        protected static ComplexLicenseExpressionRun Other(string value)
-            => new ComplexLicenseExpressionRun(value, ComplexLicenseExpressionRunType.Other);
+        protected static CompositeLicenseExpressionRun Other(string value)
+            => new CompositeLicenseExpressionRun(value, CompositeLicenseExpressionRunType.Other);
     }
 
-    internal class ComplexLicenseExpressionRunEqualityComparer : IEqualityComparer<ComplexLicenseExpressionRun>
+    internal class ComplexLicenseExpressionRunEqualityComparer : IEqualityComparer<CompositeLicenseExpressionRun>
     {
-        public bool Equals(ComplexLicenseExpressionRun x, ComplexLicenseExpressionRun y)
+        public bool Equals(CompositeLicenseExpressionRun x, CompositeLicenseExpressionRun y)
         {
             if (x == null || y == null)
             {
@@ -129,7 +129,7 @@ namespace NuGet.Licenses.Tests
             return x.Type == y.Type && x.Value == y.Value;
         }
 
-        public int GetHashCode(ComplexLicenseExpressionRun obj)
+        public int GetHashCode(CompositeLicenseExpressionRun obj)
         {
             return obj.Type.GetHashCode() ^ obj.Value.GetHashCode();
         }

@@ -116,7 +116,7 @@ namespace NuGet.Licenses.Controllers
             var runs = _licenseExpressionSplitter.GetLicenseExpressionRuns(licenseExpressionRoot);
             var fullRuns = _licenseExpressionSplitter.SplitFullExpression(licenseExpression, runs);
 
-            return View("ComplexLicenseExpression", new ComplexLicenseExpressionViewModel(fullRuns));
+            return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(fullRuns));
         }
     }
 }

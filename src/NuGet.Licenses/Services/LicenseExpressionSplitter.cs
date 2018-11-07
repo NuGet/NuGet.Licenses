@@ -16,14 +16,14 @@ namespace NuGet.Licenses.Services
         /// </summary>
         /// <param name="licenseExpressionRoot">Root of the license expression tree</param>
         /// <returns>The list of license expression token in the order they appeared in the original expression.</returns>
-        public List<ComplexLicenseExpressionRun> GetLicenseExpressionRuns(LicenseOperator licenseExpressionRoot)
+        public List<CompositeLicenseExpressionRun> GetLicenseExpressionRuns(LicenseOperator licenseExpressionRoot)
         {
             if (licenseExpressionRoot == null)
             {
                 throw new ArgumentNullException(nameof(licenseExpressionRoot));
             }
 
-            var runList = new List<ComplexLicenseExpressionRun>();
+            var runList = new List<CompositeLicenseExpressionRun>();
             InOrderTraversal(licenseExpressionRoot, runList);
             return runList;
         }
@@ -36,7 +36,7 @@ namespace NuGet.Licenses.Services
         /// <param name="licenseExpression">Original license expression.</param>
         /// <param name="runs">List of runs produced by <see cref="GetLicenseExpressionRuns"/></param>
         /// <returns>List of runs including the characters that are lost during expression parsing</returns>
-        public List<ComplexLicenseExpressionRun> SplitFullExpression(string licenseExpression, IReadOnlyCollection<ComplexLicenseExpressionRun> runs)
+        public List<CompositeLicenseExpressionRun> SplitFullExpression(string licenseExpression, IReadOnlyCollection<CompositeLicenseExpressionRun> runs)
         {
             if (licenseExpression == null)
             {
@@ -48,7 +48,7 @@ namespace NuGet.Licenses.Services
                 throw new ArgumentNullException(nameof(runs));
             }
 
-            var fullRunList = new List<ComplexLicenseExpressionRun>();
+            var fullRunList = new List<CompositeLicenseExpressionRun>();
             var startIndex = 0;
             foreach (var run in runs)
             {
@@ -60,8 +60,8 @@ namespace NuGet.Licenses.Services
                 if (currentRunStartIndex > startIndex)
                 {
                     fullRunList.Add(
-                        new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex, currentRunStartIndex - startIndex),
-                        ComplexLicenseExpressionRunType.Other));
+                        new CompositeLicenseExpressionRun(licenseExpression.Substring(startIndex, currentRunStartIndex - startIndex),
+                        CompositeLicenseExpressionRunType.Other));
                 }
                 fullRunList.Add(run);
                 startIndex = currentRunStartIndex + run.Value.Length;
@@ -70,24 +70,24 @@ namespace NuGet.Licenses.Services
             if (startIndex < licenseExpression.Length)
             {
                 fullRunList.Add(
-                    new ComplexLicenseExpressionRun(licenseExpression.Substring(startIndex),
-                    ComplexLicenseExpressionRunType.Other));
+                    new CompositeLicenseExpressionRun(licenseExpression.Substring(startIndex),
+                    CompositeLicenseExpressionRunType.Other));
             }
 
             return fullRunList;
         }
 
-        private static void InOrderTraversal(NuGetLicenseExpression root, List<ComplexLicenseExpressionRun> runList)
+        private static void InOrderTraversal(NuGetLicenseExpression root, List<CompositeLicenseExpressionRun> runList)
         {
             switch (root.Type)
             {
                 case LicenseExpressionType.License:
                     {
                         var licenseNode = (NuGetLicense)root;
-                        runList.Add(new ComplexLicenseExpressionRun(licenseNode.Identifier, ComplexLicenseExpressionRunType.LicenseIdentifier));
+                        runList.Add(new CompositeLicenseExpressionRun(licenseNode.Identifier, CompositeLicenseExpressionRunType.LicenseIdentifier));
                         if (licenseNode.Plus)
                         {
-                            runList.Add(new ComplexLicenseExpressionRun("+", ComplexLicenseExpressionRunType.Operator));
+                            runList.Add(new CompositeLicenseExpressionRun("+", CompositeLicenseExpressionRunType.Operator));
                         }
                     }
                     break;
@@ -99,7 +99,7 @@ namespace NuGet.Licenses.Services
                         {
                             var logicalOperator = (LogicalOperator)operatorNode;
                             InOrderTraversal(logicalOperator.Left, runList);
-                            runList.Add(new ComplexLicenseExpressionRun(GetLogicalOperatorString(logicalOperator), ComplexLicenseExpressionRunType.Operator));
+                            runList.Add(new CompositeLicenseExpressionRun(GetLogicalOperatorString(logicalOperator), CompositeLicenseExpressionRunType.Operator));
                             InOrderTraversal(logicalOperator.Right, runList);
 
                         }
@@ -107,8 +107,8 @@ namespace NuGet.Licenses.Services
                         {
                             var withOperator = (WithOperator)operatorNode;
                             InOrderTraversal(withOperator.License, runList);
-                            runList.Add(new ComplexLicenseExpressionRun("WITH", ComplexLicenseExpressionRunType.Operator));
-                            runList.Add(new ComplexLicenseExpressionRun(withOperator.Exception.Identifier, ComplexLicenseExpressionRunType.ExceptionIdentifier));
+                            runList.Add(new CompositeLicenseExpressionRun("WITH", CompositeLicenseExpressionRunType.Operator));
+                            runList.Add(new CompositeLicenseExpressionRun(withOperator.Exception.Identifier, CompositeLicenseExpressionRunType.ExceptionIdentifier));
                         }
                         else
                         {

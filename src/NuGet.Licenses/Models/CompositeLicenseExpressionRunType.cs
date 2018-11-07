@@ -6,7 +6,7 @@ namespace NuGet.Licenses.Models
     /// <summary>
     /// Used to specify type of the Run for complex license expression display
     /// </summary>
-    public enum ComplexLicenseExpressionRunType
+    public enum CompositeLicenseExpressionRunType
     {
         /// <summary>
         /// Catch-all type for all runs that don't have otherwise specific type

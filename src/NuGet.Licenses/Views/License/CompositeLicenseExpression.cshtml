@@ -1,0 +1,40 @@
+﻿@model NuGet.Licenses.Models.CompositeLicenseExpressionViewModel
+@using NuGet.Licenses.Models
+
+@functions {
+    static string GetRunSpecificClass(CompositeLicenseExpressionRunType runType)
+    {
+        return runType.ToString().ToLowerInvariant().Replace("identifier", "");
+    }
+}
+
+@helper MakeLink(CompositeLicenseExpressionRun run) {<a href="@run.Value" class="@GetRunSpecificClass(run.Type)">@run.Value</a>}
+@helper MakeSpan(CompositeLicenseExpressionRun run) {
+#line default
+#line hidden
+    return new System.Web.WebPages.HelperResult(__razor_helper_writer => {
+
+    n
+#line 11 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"
+                                                           __o = GetRunSpecificClass(run.Type);
+
+
+#line default
+#line hidden
+
+#line 12 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"
+    __o = run.Value;
+
+
+
+
+#line default
+#line hidden{
+#line 13 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"
+
+
+#line default
+#line hidden
+    });
+
+#line 14 "E:\dev\NuGet.Licenses\src\NuGet.Licenses\Views\License\ComplexLicenseExpression.cshtml"

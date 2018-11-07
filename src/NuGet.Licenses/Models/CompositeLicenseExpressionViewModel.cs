@@ -6,13 +6,13 @@ using System.Collections.Generic;
 
 namespace NuGet.Licenses.Models
 {
-    public class ComplexLicenseExpressionViewModel
+    public class CompositeLicenseExpressionViewModel
     {
-        public ComplexLicenseExpressionViewModel(IReadOnlyCollection<ComplexLicenseExpressionRun> runs)
+        public CompositeLicenseExpressionViewModel(IReadOnlyCollection<CompositeLicenseExpressionRun> runs)
         {
             Runs = runs ?? throw new ArgumentNullException(nameof(runs));
         }
 
-        public IReadOnlyCollection<ComplexLicenseExpressionRun> Runs { get; }
+        public IReadOnlyCollection<CompositeLicenseExpressionRun> Runs { get; }
     }
 }

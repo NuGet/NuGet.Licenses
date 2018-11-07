@@ -69,14 +69,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Models\ComplexLicenseExpressionRun.cs" />
-    <Compile Include="Models\ComplexLicenseExpressionRunType.cs" />
-    <Compile Include="Models\ComplexLicenseExpressionViewModel.cs" />
     <Compile Include="Controllers\LicenseController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CompositeLicenseExpressionRun.cs" />
+    <Compile Include="Models\CompositeLicenseExpressionRunType.cs" />
+    <Compile Include="Models\CompositeLicenseExpressionViewModel.cs" />
     <Compile Include="Models\InvalidRequestModel.cs" />
     <Compile Include="Models\SingleLicenseInformationModel.cs" />
     <Compile Include="Models\UnknownLicenseModel.cs" />
@@ -183,7 +183,7 @@
     <Content Include="Views\License\InvalidRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\License\ComplexLicenseExpression.cshtml" />
+    <Content Include="Views\License\CompositeLicenseExpression.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

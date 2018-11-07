@@ -36,22 +36,22 @@ namespace NuGet.Licenses.Services
         /// <param name="licenseExpressionRoot">Root of the license expresion tree</param>
         /// <returns>The list of the runs restored from the tree.</returns>
         /// <remarks>
-        /// This method only returns "runs" of types <see cref="ComplexLicenseExpressionRunType.LicenseIdentifier"/>,
-        /// <see cref="ComplexLicenseExpressionRunType.ExceptionIdentifier"/>
-        /// and <see cref="ComplexLicenseExpressionRunType.Operator"/>.
+        /// This method only returns "runs" of types <see cref="CompositeLicenseExpressionRunType.LicenseIdentifier"/>,
+        /// <see cref="CompositeLicenseExpressionRunType.ExceptionIdentifier"/>
+        /// and <see cref="CompositeLicenseExpressionRunType.Operator"/>.
         /// 
         /// It cannot restore extra whitespace and parentheses that might have been present in the original expression.
         /// </remarks>
-        List<ComplexLicenseExpressionRun> GetLicenseExpressionRuns(LicenseOperator licenseExpressionRoot);
+        List<CompositeLicenseExpressionRun> GetLicenseExpressionRuns(LicenseOperator licenseExpressionRoot);
 
         /// <summary>
         /// "Projects" the list of the runs provided by <see cref="GetLicenseExpressionRuns(LicenseOperator)"/> methods
         /// onto the license expression string discovering any extra "runs" of
-        /// type <see cref="ComplexLicenseExpressionRunType.Other"/> it might have.
+        /// type <see cref="CompositeLicenseExpressionRunType.Other"/> it might have.
         /// </summary>
         /// <param name="licenseExpression">License expression string to get additional information from.</param>
         /// <param name="runs">List of the runs returned by <see cref="GetLicenseExpressionRuns(LicenseOperator)"/></param>
         /// <returns>The complete list of "runs" making up the license expression including any extra data it might have.</returns>
-        List<ComplexLicenseExpressionRun> SplitFullExpression(string licenseExpression, IReadOnlyCollection<ComplexLicenseExpressionRun> runs);
+        List<CompositeLicenseExpressionRun> SplitFullExpression(string licenseExpression, IReadOnlyCollection<CompositeLicenseExpressionRun> runs);
     }
 }
