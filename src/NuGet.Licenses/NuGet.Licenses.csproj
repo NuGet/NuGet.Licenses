@@ -83,6 +83,7 @@
     <Compile Include="Services\LicenseExpressionSplitter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">

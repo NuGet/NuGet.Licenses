@@ -1,0 +1,13 @@
+﻿body {
+    font-family: sans-serif;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+#main-content {
+    width: 60em;
+    margin-left: auto;
+    margin-right: auto;
+}
