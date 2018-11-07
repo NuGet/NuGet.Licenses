@@ -116,9 +116,9 @@ To use this license, place in each of the files of your program both an explicit
 
 Here is an example of such a notice and statement:
 
- %% 
+ %% _____
 
- %% Copyright 
+ %% Copyright _____
 
  %
 
@@ -138,7 +138,7 @@ Here is an example of such a notice and statement:
 
  %
 
- % This program consists of the 
+ % This program consists of the _____
 
 Given such a notice and statement in a file, the conditions given in this license document would apply, with `The Program' referring to the two files `pig.dtx' and `pig.ins', and `The Copyright Holder' referring to the person `M. Y. Name'.
 

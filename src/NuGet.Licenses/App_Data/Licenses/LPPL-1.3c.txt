@@ -156,9 +156,9 @@ To use this license, place in each of the components of your work both an explic
 
 Here is an example of such a notice and statement:
 
- %% 
+ %% _____
 
- %% Copyright 
+ %% Copyright _____
 
  %
 
@@ -178,15 +178,15 @@ Here is an example of such a notice and statement:
 
  %
 
- % This work has the LPPL maintenance status "  ".
+ % This work has the LPPL maintenance status " _____ ".
 
  %
 
- % The Current Maintainer of this work is  .
+ % The Current Maintainer of this work is _____ .
 
  %
 
- % This work consists of the  .
+ % This work consists of the _____ .
 
 Given such a notice and statement in a file, the conditions given in this license document would apply, with the `Work' referring to the three files `pig.dtx', `pig.ins', and `pig.sty' (the last being generated from `pig.dtx' using `pig.ins'), the `Base Interpreter' referring to any `LaTeX-Format', and both `Copyright Holder' and `Current Maintainer' referring to the person `M. Y. Name'.
 

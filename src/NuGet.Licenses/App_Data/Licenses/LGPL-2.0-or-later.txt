@@ -150,9 +150,9 @@ If you develop a new library, and you want it to be of the greatest possible use
 
 To apply these terms, attach the following notices to the library. It is safest to attach them to the start of each source file to most effectively convey the exclusion of warranty; and each file should have at least the "copyright" line and a pointer to where the full notice is found.
 
+_____
 
-
-Copyright (C) 
+Copyright (C) _____
 
 This library is free software; you can redistribute it and/or modify it under the terms of the GNU Library General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
