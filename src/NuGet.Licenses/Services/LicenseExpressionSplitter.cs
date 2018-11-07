@@ -1,13 +1,14 @@
-﻿using System;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using NuGet.Licenses.Models;
 using NuGet.Packaging.Licenses;
 
 namespace NuGet.Licenses.Services
 {
-    public class LicenseExpressionSplitter
+    public class LicenseExpressionSplitter : ILicenseExpressionSplitter
     {
         /// <summary>
         /// Does an in-order traversal of a license expression tree restoring the sequence of tokens
@@ -75,7 +76,6 @@ namespace NuGet.Licenses.Services
 
             return fullRunList;
         }
-
 
         private static void InOrderTraversal(NuGetLicenseExpression root, List<ComplexLicenseExpressionRun> runList)
         {

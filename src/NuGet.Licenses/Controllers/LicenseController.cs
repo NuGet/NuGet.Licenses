@@ -11,6 +11,13 @@ namespace NuGet.Licenses.Controllers
 {
     public class LicenseController : Controller
     {
+        private readonly ILicenseExpressionSplitter _licenseExpressionSplitter;
+
+        public LicenseController(ILicenseExpressionSplitter licenseExpressionSplitter)
+        {
+            _licenseExpressionSplitter = licenseExpressionSplitter ?? throw new ArgumentNullException(nameof(licenseExpressionSplitter));
+        }
+
         public ActionResult Index()
         {
             return Redirect("https://github.com/NuGet/Home/wiki/Packaging-License-within-the-nupkg");
@@ -82,10 +89,8 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
         {
-            // TODO: DI this
-            var splitter = new LicenseExpressionSplitter();
-            var runs = splitter.GetLicenseExpressionRuns(licenseExpressionRoot);
-            var fullRuns = splitter.SplitFullExpression(licenseExpression, runs);
+            var runs = _licenseExpressionSplitter.GetLicenseExpressionRuns(licenseExpressionRoot);
+            var fullRuns = _licenseExpressionSplitter.SplitFullExpression(licenseExpression, runs);
 
             return View("ComplexLicenseExpression", new ComplexLicenseExpressionViewModel(fullRuns));
         }
