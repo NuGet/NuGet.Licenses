@@ -3,6 +3,14 @@
 <html>
 <head>
     <link rel="stylesheet" href="~/Content/Site.css" />
+    @if (ViewBag.Title != null)
+    {
+        <title>@ViewBag.Title</title>
+    }
+    else
+    {
+        <title>NuGet license reference</title>
+    }
 </head>
 <body>
     <div id="main-content">

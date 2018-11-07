@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using NuGet.Licenses.Models;
 using NuGet.Licenses.Services;
@@ -33,7 +32,7 @@ namespace NuGet.Licenses.Controllers
             }
             catch (NuGetLicenseExpressionParsingException e)
             { 
-                throw new InvalidOperationException($"Failed to parse license expression: {licenseExpression}", e);
+                return InvalidRequest($"Failed to parse license expression: {licenseExpression}");
             }
 
             if (licenseExpressionRootNode.Type == LicenseExpressionType.License)
@@ -63,10 +62,11 @@ namespace NuGet.Licenses.Controllers
             throw new InvalidOperationException($"Unexpected license expression root node type: {licenseExpressionRootNode.Type}");
         }
 
-        private ActionResult InvalidRequest()
+        private ActionResult InvalidRequest(string errorText = null)
         {
+            var model = new InvalidRequestModel(errorText);
             Response.StatusCode = 400;
-            return View("InvalidRequest");
+            return View("InvalidRequest", model);
         }
 
         private ActionResult UnknownLicense(NuGetLicense license)

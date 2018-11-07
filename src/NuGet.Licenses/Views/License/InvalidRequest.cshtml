@@ -1,6 +1,12 @@
-﻿
+﻿@model NuGet.Licenses.Models.InvalidRequestModel
+
 @{
     ViewBag.Title = "Invalid request";
 }
 
 <h2>Invalid Request</h2>
+
+@if (Model.Message != null)
+{
+    <p>@Model.Message</p>
+}
