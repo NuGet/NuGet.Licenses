@@ -80,7 +80,9 @@
     <Compile Include="Models\SingleLicenseInformationModel.cs" />
     <Compile Include="Models\UnknownLicenseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ILicenseFileService.cs" />
     <Compile Include="Services\LicenseExpressionSplitter.cs" />
+    <Compile Include="Services\LicenseFileService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

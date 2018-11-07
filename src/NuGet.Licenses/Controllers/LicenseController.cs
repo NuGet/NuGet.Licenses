@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using NuGet.Licenses.Models;
 using NuGet.Licenses.Services;
@@ -12,6 +11,15 @@ namespace NuGet.Licenses.Controllers
 {
     public class LicenseController : Controller
     {
+        private readonly ILicenseFileService _licenseFileService;
+
+        public LicenseController(
+            ILicenseFileService licenseFileService
+            )
+        {
+            _licenseFileService = licenseFileService;    
+        }
+
         public ActionResult Index()
         {
             return Redirect("https://github.com/NuGet/Home/wiki/Packaging-License-within-the-nupkg");
@@ -77,7 +85,24 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayLicense(NuGetLicense license)
         {
-            return View(new SingleLicenseInformationModel(license.Identifier, "<license text placeholder>"));
+            if (license == null)
+            {
+                throw new ArgumentNullException(nameof(license));
+            }
+
+            string licenseFilePath = _licenseFileService.GetLicenseFilePath(license.Identifier);
+            if (!_licenseFileService.IsLicenseFilePathAllowed(licenseFilePath))
+            {
+                return InvalidRequest();
+            }
+
+            if (!_licenseFileService.IsLicenseFileExisted(licenseFilePath))
+            {
+                return UnknownLicense(license);
+            }
+
+            string licenseContent = _licenseFileService.GetLicenseFileContent(licenseFilePath);
+            return View(new SingleLicenseInformationModel(license.Identifier, licenseContent));
         }
 
         private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)

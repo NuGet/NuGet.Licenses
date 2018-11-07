@@ -74,6 +74,12 @@ namespace NuGet.Licenses
                 .As(typeof(ILogger<>))
                 .SingleInstance();
 
+            builder
+                .RegisterType<LicenseFileService>()
+                .AsSelf()
+                .As<ILicenseFileService>()
+                .SingleInstance();
+
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
