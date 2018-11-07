@@ -1,8 +1,8 @@
-﻿using System;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NuGet.Licenses.Models;
 using NuGet.Licenses.Services;
 using NuGet.Packaging.Licenses;
@@ -24,6 +24,7 @@ namespace NuGet.Licenses.Tests
             new object[] { "(((MIT  OR ISC)))", new[] { License("MIT"), Or(), License("ISC") } },
             new object[] { "(((MIT)) OR  ((ISC)))", new[] { License("MIT"), Or(), License("ISC") } },
             new object[] { "(MIT OR ISC  WITH Classpath-exception-2.0)", new[] { License("MIT"), Or(), License("ISC"), With(), Exception("Classpath-exception-2.0") } },
+            new object[] { "(MIT+ OR  ((ISC)))", new[] { License("MIT"), Operator("+"), Or(), License("ISC") } },
         };
 
         [Theory]
