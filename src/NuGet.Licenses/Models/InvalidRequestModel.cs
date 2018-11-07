@@ -5,13 +5,13 @@ using System;
 
 namespace NuGet.Licenses.Models
 {
-    public class UnknownLicenseModel
+    public class InvalidRequestModel
     {
-        public UnknownLicenseModel(string licenseName)
+        public InvalidRequestModel(string errorMessage)
         {
-            LicenseName = licenseName ?? throw new ArgumentNullException(nameof(licenseName));
+            Message = errorMessage; // OK to be null
         }
 
-        public string LicenseName { get; }
+        public string Message { get; }
     }
 }

@@ -2,8 +2,19 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    @if (ViewBag.Title != null)
+    {
+        <title>@ViewBag.Title</title>
+    }
+    else
+    {
+        <title>NuGet license reference</title>
+    }
 </head>
 <body>
-    @RenderBody()
+    <div id="main-content">
+        @RenderBody()
+    </div>
 </body>
 </html>

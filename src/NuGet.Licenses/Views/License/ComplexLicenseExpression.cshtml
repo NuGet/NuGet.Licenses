@@ -8,7 +8,11 @@
     }
 }
 
-<p id="license-expression">
+<p>
+    Composite license expression:
+</p>
+
+<div id="license-expression">
 @foreach(var run in Model.Runs)
 {
     if (run.Type == ComplexLicenseExpressionRunType.LicenseIdentifier || run.Type == ComplexLicenseExpressionRunType.ExceptionIdentifier)
@@ -20,4 +24,4 @@
     <span class="license-expression-element @GetRunSpecificClass(run.Type)">@run.Value</span>
     }
 }
-</p>
+</div>

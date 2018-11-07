@@ -77,14 +77,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvalidRequestModel.cs" />
     <Compile Include="Models\SingleLicenseInformationModel.cs" />
     <Compile Include="Models\UnknownLicenseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ILicenseFileService.cs" />
+    <Compile Include="Services\ILicenseExpressionSplitter.cs" />
     <Compile Include="Services\LicenseExpressionSplitter.cs" />
-    <Compile Include="Services\LicenseFileService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
