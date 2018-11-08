@@ -15,21 +15,17 @@ namespace NuGet.Licenses
         string GetLicenseFilePath(string licenseIdentifier);
 
         /// <summary>
-        /// The function is used to check whether the license file path is allowed.
-        /// </summary>
-        /// <param name="licenseFilePath">The license file path</param>
-        bool IsLicenseFilePathAllowed(string licenseFilePath);
-
-        /// <summary>
         /// The function is used to check whether the license file path is existed.
         /// </summary>
         /// <param name="licenseFilePath">The license file path</param>
-        bool IsLicenseFileExisted(string licenseFilePath);
-        
+        /// <param name="licenseIdentifier">The license name</param>
+        bool DoesLicenseFileExist(string licenseFilePath, string licenseIdentifier);
+
         /// <summary>
         /// The function is used to get the license content given the license file path. 
         /// </summary>
         /// <param name="licenseFilePath">The license file path</param>
-        string GetLicenseFileContent(string licenseFilePath);
+        /// <param name="licenseIdentifier">The license name</param>
+        string GetLicenseFileContent(string licenseFilePath, string licenseIdentifier);
     }
 }

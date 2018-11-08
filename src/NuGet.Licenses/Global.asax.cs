@@ -86,6 +86,13 @@ namespace NuGet.Licenses
                 .As<ILicenseFileService>()
                 .SingleInstance();
 
+            builder
+                .RegisterType<LicensesFolderPathService>()
+                .AsSelf()
+                .As<ILicensesFolderPathService>()
+                .SingleInstance();
+
+
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }

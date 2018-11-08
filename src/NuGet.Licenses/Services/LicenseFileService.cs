@@ -8,24 +8,46 @@ namespace NuGet.Licenses
 {
     public class LicenseFileService : ILicenseFileService
     {
+        private readonly ILicensesFolderPathService _licensesFolderPathService;
+        public LicenseFileService(ILicensesFolderPathService licensesFolderPathService)
+        {
+            _licensesFolderPathService = licensesFolderPathService ?? throw new ArgumentNullException(nameof(licensesFolderPathService));
+        }
+
         public string GetLicenseFilePath(string licenseIdentifier)
         {
-            return Path.GetFullPath(Path.Combine(HttpContext.Current.Server.MapPath("~\\App_Data\\Licenses\\"), String.Concat(licenseIdentifier, ".txt")));
+            string licenseFilePath = Path.GetFullPath(Path.Combine(_licensesFolderPathService.getLicensesFolderPath(), String.Concat(licenseIdentifier, ".txt")));
+            if (!IsLicenseFilePathAllowed(licenseFilePath))
+            {
+                throw new ArgumentException(String.Format("{0} is not a valid license", licenseIdentifier), nameof(licenseIdentifier));
+            }
+
+            return licenseFilePath;
         }
 
-        public bool IsLicenseFilePathAllowed(string licenseFilePath)
+        public bool DoesLicenseFileExist(string licenseFilePath, string licenseIdentifier)
         {
-            return licenseFilePath.StartsWith(HttpContext.Current.Server.MapPath("~\\App_Data\\Licenses\\"));
-        }
+            if (!IsLicenseFilePathAllowed(licenseFilePath))
+            {
+                throw new ArgumentException(String.Format("{0} is not a valid license", licenseIdentifier), nameof(licenseIdentifier));
+            }
 
-        public bool IsLicenseFileExisted(string licenseFilePath)
-        {
             return File.Exists(licenseFilePath);
         }
 
-        public string GetLicenseFileContent(string licenseFilePath)
+        public string GetLicenseFileContent(string licenseFilePath, string licenseIdentifier)
         {
+            if (!IsLicenseFilePathAllowed(licenseFilePath))
+            {
+                throw new ArgumentException(String.Format("{0} is not a valid license", licenseIdentifier), nameof(licenseIdentifier));
+            }
+
             return File.ReadAllText(licenseFilePath);
+        }
+
+        private bool IsLicenseFilePathAllowed(string licenseFilePath)
+        {
+            return licenseFilePath.StartsWith(_licensesFolderPathService.getLicensesFolderPath());
         }
     }
 }

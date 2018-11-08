@@ -113,22 +113,27 @@ namespace NuGet.Licenses.Controllers
         {
             if (license == null)
             {
-                throw new ArgumentNullException(nameof(license));
-            }
-
-            string licenseFilePath = _licenseFileService.GetLicenseFilePath(license.Identifier);
-            if (!_licenseFileService.IsLicenseFilePathAllowed(licenseFilePath))
-            {
+                _logger.LogError("license can not be null", nameof(license));
                 return InvalidRequest();
             }
 
-            if (!_licenseFileService.IsLicenseFileExisted(licenseFilePath))
+            try
             {
-                return UnknownLicense(license);
-            }
+                
+                string licenseFilePath = _licenseFileService.GetLicenseFilePath(license.Identifier);
+                if (!_licenseFileService.DoesLicenseFileExist(licenseFilePath, license.Identifier))
+                {
+                    return UnknownLicense(license);
+                }
 
-            string licenseContent = _licenseFileService.GetLicenseFileContent(licenseFilePath);
-            return View(new SingleLicenseInformationModel(license.Identifier, licenseContent));
+                string licenseContent = _licenseFileService.GetLicenseFileContent(licenseFilePath, license.Identifier);
+                return View(new SingleLicenseInformationModel(license.Identifier, licenseContent));
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogError(ex.Message);
+                return InvalidRequest(String.Format("Invalid license identifier: {0}", license.Identifier));
+            }
         }
 
         private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
