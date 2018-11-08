@@ -10,7 +10,7 @@ namespace NuGet.Licenses.Models
         public SingleLicenseInformationModel(string title, string text)
         {
             Title = title ?? throw new ArgumentNullException(nameof(title));
-            text = text ?? throw new ArgumentNullException(nameof(text));
+            Text = text ?? throw new ArgumentNullException(nameof(text));
         }
 
         public string Title { get; }

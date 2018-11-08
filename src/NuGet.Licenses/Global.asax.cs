@@ -80,6 +80,21 @@ namespace NuGet.Licenses
                 .As<ILicenseExpressionSplitter>()
                 .InstancePerLifetimeScope();
 
+            builder
+                .RegisterType<LicenseFileService>()
+                .As<ILicenseFileService>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<LicensesFolderPathService>()
+                .As<ILicensesFolderPathService>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<FileService>()
+                .As<IFileService>()
+                .InstancePerLifetimeScope();
+
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
