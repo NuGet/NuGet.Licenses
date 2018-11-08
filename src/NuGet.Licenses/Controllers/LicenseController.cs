@@ -111,28 +111,20 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayLicense(NuGetLicense license)
         {
-            if (license == null)
-            {
-                _logger.LogError("license can not be null", nameof(license));
-                return InvalidRequest();
-            }
-
             try
             {
-                
-                string licenseFilePath = _licenseFileService.GetLicenseFilePath(license.Identifier);
-                if (!_licenseFileService.DoesLicenseFileExist(licenseFilePath, license.Identifier))
+                if (!_licenseFileService.DoesLicenseFileExist(license.Identifier))
                 {
                     return UnknownLicense(license);
                 }
 
-                string licenseContent = _licenseFileService.GetLicenseFileContent(licenseFilePath, license.Identifier);
+                string licenseContent = _licenseFileService.GetLicenseFileContent(license.Identifier);
                 return View(new SingleLicenseInformationModel(license.Identifier, licenseContent));
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException e)
             {
-                _logger.LogError(ex.Message);
-                return InvalidRequest(String.Format("Invalid license identifier: {0}", license.Identifier));
+                _logger.LogError(0, e, "Got exception while attempting to get license contents due to the invalid license: {licenseIdentifier}", license.Identifier);
+                return InvalidRequest();
             }
         }
 

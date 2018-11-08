@@ -82,16 +82,18 @@ namespace NuGet.Licenses
 
             builder
                 .RegisterType<LicenseFileService>()
-                .AsSelf()
                 .As<ILicenseFileService>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
             builder
                 .RegisterType<LicensesFolderPathService>()
-                .AsSelf()
                 .As<ILicensesFolderPathService>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
+            builder
+                .RegisterType<FileService>()
+                .As<IFileService>()
+                .InstancePerLifetimeScope();
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

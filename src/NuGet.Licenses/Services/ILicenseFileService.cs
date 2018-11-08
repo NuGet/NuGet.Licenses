@@ -9,23 +9,15 @@ namespace NuGet.Licenses
     public interface ILicenseFileService
     {
         /// <summary>
-        /// The function is used to get the full path of the license file.
+        /// The function is used to check whether the license file path exists.
         /// </summary>
         /// <param name="licenseIdentifier">The license name</param>
-        string GetLicenseFilePath(string licenseIdentifier);
-
-        /// <summary>
-        /// The function is used to check whether the license file path is existed.
-        /// </summary>
-        /// <param name="licenseFilePath">The license file path</param>
-        /// <param name="licenseIdentifier">The license name</param>
-        bool DoesLicenseFileExist(string licenseFilePath, string licenseIdentifier);
+        bool DoesLicenseFileExist(string licenseIdentifier);
 
         /// <summary>
         /// The function is used to get the license content given the license file path. 
         /// </summary>
-        /// <param name="licenseFilePath">The license file path</param>
         /// <param name="licenseIdentifier">The license name</param>
-        string GetLicenseFileContent(string licenseFilePath, string licenseIdentifier);
+        string GetLicenseFileContent(string licenseIdentifier);
     }
 }

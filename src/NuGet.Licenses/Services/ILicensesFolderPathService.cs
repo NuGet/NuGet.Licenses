@@ -11,6 +11,6 @@ namespace NuGet.Licenses
         /// <summary>
         /// The function is used to get the path of the licenses folder.
         /// </summary>
-        string getLicensesFolderPath();
+        string GetLicensesFolderPath();
     }
 }
