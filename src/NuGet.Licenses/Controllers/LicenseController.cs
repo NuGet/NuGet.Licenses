@@ -38,6 +38,11 @@ namespace NuGet.Licenses.Controllers
 
             using (_logger.BeginScope("{IssueId}", issueId))
             {
+                if (NuGetLicenseData.ExceptionList.TryGetValue(licenseExpression, out var exceptionData))
+                {
+                    return DisplayException(exceptionData);
+                }
+
                 NuGetLicenseExpression licenseExpressionRootNode;
 
                 if (licenseExpression == null || licenseExpression.Length > 500)
@@ -105,25 +110,40 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult UnknownLicense(NuGetLicense license)
         {
+            return UnknownLicense(license);
+        }
+
+        private ActionResult UnknownLicense(string licenseIdentifier)
+        {
             Response.StatusCode = 404;
-            return View("UnknownLicense", new UnknownLicenseModel(license.Identifier));
+            return View("UnknownLicense", new UnknownLicenseModel(licenseIdentifier));
         }
 
         private ActionResult DisplayLicense(NuGetLicense license)
         {
+            return DisplayLicenseFromFile(license.Identifier);
+        }
+
+        private ActionResult DisplayException(ExceptionData exception)
+        {
+            return DisplayLicenseFromFile(exception.LicenseExceptionID);
+        }
+
+        private ActionResult DisplayLicenseFromFile(string identifier)
+        {
             try
             {
-                if (!_licenseFileService.DoesLicenseFileExist(license.Identifier))
+                if (!_licenseFileService.DoesLicenseFileExist(identifier))
                 {
-                    return UnknownLicense(license);
+                    return UnknownLicense(identifier);
                 }
 
-                string licenseContent = _licenseFileService.GetLicenseFileContent(license.Identifier);
-                return View(new SingleLicenseInformationModel(license.Identifier, licenseContent));
+                string licenseContent = _licenseFileService.GetLicenseFileContent(identifier);
+                return View("DisplayLicense", new SingleLicenseInformationModel(identifier, licenseContent));
             }
             catch (ArgumentException e)
             {
-                _logger.LogError(0, e, "Got exception while attempting to get license contents due to the invalid license: {licenseIdentifier}", license.Identifier);
+                _logger.LogError(0, e, "Got exception while attempting to get license contents due to the invalid license: {licenseIdentifier}", identifier);
                 return InvalidRequest();
             }
         }

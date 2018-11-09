@@ -1,9 +1,7 @@
 ﻿@model NuGet.Licenses.Models.SingleLicenseInformationModel
 @{
-    ViewBag.Title = "License text reference";
+    ViewBag.Title = string.Format("'{0}' reference", Model.Title);
 }
-
-<h2>@Model.Title</h2>
 
 <pre>@Model.Text </pre>
 
