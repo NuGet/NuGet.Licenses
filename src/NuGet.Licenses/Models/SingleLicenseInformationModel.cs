@@ -7,13 +7,15 @@ namespace NuGet.Licenses.Models
 {
     public class SingleLicenseInformationModel
     {
-        public SingleLicenseInformationModel(string title, string text)
+        public SingleLicenseInformationModel(string title, string text, bool isException)
         {
             Title = title ?? throw new ArgumentNullException(nameof(title));
             Text = text ?? throw new ArgumentNullException(nameof(text));
+            IsException = isException;
         }
 
         public string Title { get; }
         public string Text { get; }
+        public bool IsException { get; }
     }
 }

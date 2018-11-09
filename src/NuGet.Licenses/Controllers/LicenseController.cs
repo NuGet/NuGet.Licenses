@@ -121,15 +121,15 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayLicense(NuGetLicense license)
         {
-            return DisplayLicenseFromFile(license.Identifier);
+            return DisplayLicenseFromFile(license.Identifier, isException: false);
         }
 
         private ActionResult DisplayException(ExceptionData exception)
         {
-            return DisplayLicenseFromFile(exception.LicenseExceptionID);
+            return DisplayLicenseFromFile(exception.LicenseExceptionID, isException: true);
         }
 
-        private ActionResult DisplayLicenseFromFile(string identifier)
+        private ActionResult DisplayLicenseFromFile(string identifier, bool isException)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace NuGet.Licenses.Controllers
                 }
 
                 string licenseContent = _licenseFileService.GetLicenseFileContent(identifier);
-                return View("DisplayLicense", new SingleLicenseInformationModel(identifier, licenseContent));
+                return View("DisplayLicense", new SingleLicenseInformationModel(identifier, licenseContent, isException));
             }
             catch (ArgumentException e)
             {
