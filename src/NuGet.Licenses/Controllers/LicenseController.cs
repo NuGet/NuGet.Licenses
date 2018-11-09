@@ -28,7 +28,7 @@ namespace NuGet.Licenses.Controllers
 
         public ActionResult Index()
         {
-            return Redirect("https://github.com/NuGet/Home/wiki/Packaging-License-within-the-nupkg");
+            return Redirect("https://aka.ms/licenses.nuget.org");
         }
 
         public ActionResult DisplayLicense(string licenseExpression)
