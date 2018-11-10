@@ -13,6 +13,7 @@ namespace NuGet.Licenses.Tests
         private static string TestLicenseIdentifier = "MIT";
         private static string TestLicenseContent = "MIT license content";
         private static string TestLicensesFolderPath = "TestFolder\\TestPath\\";
+        private static string TestLicenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(TestLicenseIdentifier, ".txt"));
 
         private Mock<ILicensesFolderPathService> _licensesFolderPathService;
         private Mock<IFileService> _fileService;
@@ -26,8 +27,8 @@ namespace NuGet.Licenses.Tests
 
             _fileService = new Mock<IFileService>();
             _fileService
-                    .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
-                    .Returns(Path.Combine(TestLicensesFolderPath, TestLicenseIdentifier, ".txt"));
+                .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
+                .Returns(TestLicenseFullPath);
             _fileService
                 .Setup(x => x.DoesFileExist(It.IsAny<string>()))
                 .Returns(true);
@@ -68,10 +69,10 @@ namespace NuGet.Licenses.Tests
                 x => x.GetLicensesFolderPath(),
                 Times.Exactly(2));
             _fileService.Verify(
-                x => x.DoesFileExist(It.IsAny<string>()),
+                x => x.DoesFileExist(TestLicenseFullPath),
                 Times.Once);
             _fileService.Verify(
-                x => x.GetFileFullPath(It.IsAny<string>()),
+                x => x.GetFileFullPath(TestLicenseFullPath),
                 Times.Once);
         }
 
@@ -80,10 +81,11 @@ namespace NuGet.Licenses.Tests
         {
             // Arrange
             var licenseIdentifier = "Test-license";
+            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".txt"));
             var mockFileService = new Mock<IFileService>();
             mockFileService
                 .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
-                .Returns(Path.Combine(TestLicensesFolderPath, licenseIdentifier, ".txt"));
+                .Returns(licenseFullPath);
             mockFileService
                 .Setup(x => x.DoesFileExist(It.IsAny<string>()))
                 .Returns(false);
@@ -99,10 +101,10 @@ namespace NuGet.Licenses.Tests
                 x => x.GetLicensesFolderPath(),
                 Times.Exactly(2));
             mockFileService.Verify(
-                x => x.DoesFileExist(It.IsAny<string>()),
+                x => x.DoesFileExist(licenseFullPath),
                 Times.Once);
             mockFileService.Verify(
-                x => x.GetFileFullPath(It.IsAny<string>()),
+                x => x.GetFileFullPath(licenseFullPath),
                 Times.Once);
         }
 
@@ -111,6 +113,7 @@ namespace NuGet.Licenses.Tests
         {
             // Arrange
             var licenseIdentifier = "..\\";
+            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".txt"));
             var mockFileService = new Mock<IFileService>();
             mockFileService
                 .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
@@ -127,7 +130,7 @@ namespace NuGet.Licenses.Tests
                 x => x.GetLicensesFolderPath(),
                 Times.Exactly(2));
             mockFileService.Verify(
-                x => x.GetFileFullPath(It.IsAny<string>()),
+                x => x.GetFileFullPath(licenseFullPath),
                 Times.Once);
             mockFileService.Verify(
                 x => x.DoesFileExist(It.IsAny<string>()),
@@ -149,10 +152,10 @@ namespace NuGet.Licenses.Tests
                 x => x.GetLicensesFolderPath(),
                 Times.Exactly(2));
             _fileService.Verify(
-                x => x.GetFileFullPath(It.IsAny<string>()),
+                x => x.GetFileFullPath(TestLicenseFullPath),
                 Times.Once);
             _fileService.Verify(
-                x => x.ReadFileContent(It.IsAny<string>()),
+                x => x.ReadFileContent(TestLicenseFullPath),
                 Times.Once);
         }
 
@@ -161,6 +164,7 @@ namespace NuGet.Licenses.Tests
         {
             // Arrange
             var licenseIdentifier = "..\\";
+            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".txt"));
             var mockFileService = new Mock<IFileService>();
             mockFileService
                 .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
@@ -177,7 +181,7 @@ namespace NuGet.Licenses.Tests
                 x => x.GetLicensesFolderPath(),
                 Times.Exactly(2));
             mockFileService.Verify(
-                x => x.GetFileFullPath(It.IsAny<string>()),
+                x => x.GetFileFullPath(licenseFullPath),
                 Times.Once);
             mockFileService.Verify(
                 x => x.ReadFileContent(It.IsAny<string>()),
