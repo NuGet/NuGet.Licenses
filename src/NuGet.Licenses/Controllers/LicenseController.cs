@@ -2,6 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Linq;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using Microsoft.Extensions.Logging;
 using NuGet.Licenses.Models;
@@ -15,15 +18,18 @@ namespace NuGet.Licenses.Controllers
         private readonly ILicenseExpressionSplitter _licenseExpressionSplitter;
         private readonly ILogger<LicenseController> _logger;
         private readonly ILicenseFileService _licenseFileService;
+        private readonly ILicenseExpressionFixupService _licenseExpressionFixupService;
 
         public LicenseController(
             ILicenseExpressionSplitter licenseExpressionSplitter,
             ILogger<LicenseController> logger,
-            ILicenseFileService licenseFileService)
+            ILicenseFileService licenseFileService,
+            ILicenseExpressionFixupService licenseExpressionFixupService)
         {
             _licenseExpressionSplitter = licenseExpressionSplitter ?? throw new ArgumentNullException(nameof(licenseExpressionSplitter));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _licenseFileService = licenseFileService ?? throw new ArgumentNullException(nameof(licenseFileService));
+            _licenseExpressionFixupService = licenseExpressionFixupService ?? throw new ArgumentNullException(nameof(licenseExpressionFixupService));
         }
 
         public ActionResult Index()
@@ -38,21 +44,23 @@ namespace NuGet.Licenses.Controllers
 
             using (_logger.BeginScope("{IssueId}", issueId))
             {
-                if (NuGetLicenseData.ExceptionList.TryGetValue(licenseExpression, out var exceptionData))
+                var processedLicenseExpression = _licenseExpressionFixupService.FixupLicenseExpression(licenseExpression);
+
+                if (NuGetLicenseData.ExceptionList.TryGetValue(processedLicenseExpression, out var exceptionData))
                 {
                     return DisplayException(exceptionData);
                 }
 
                 NuGetLicenseExpression licenseExpressionRootNode;
 
-                if (licenseExpression == null || licenseExpression.Length > 500)
+                if (processedLicenseExpression == null || processedLicenseExpression.Length > 500)
                 {
                     return InvalidRequest();
                 }
 
                 try
                 {
-                    licenseExpressionRootNode = NuGetLicenseExpression.Parse(licenseExpression);
+                    licenseExpressionRootNode = NuGetLicenseExpression.Parse(processedLicenseExpression);
                 }
                 catch (NuGetLicenseExpressionParsingException e)
                 {
@@ -91,7 +99,7 @@ namespace NuGet.Licenses.Controllers
                         return InvalidRequest();
                     }
 
-                    return DisplayComplexLicenseExpression(complexLicenseExpressionRoot, licenseExpression);
+                    return DisplayComplexLicenseExpression(complexLicenseExpressionRoot, processedLicenseExpression);
                 }
 
                 _logger.LogError("Unexpected license expression tree root type: {LicenseExpressionTreeRootType} for expression {LicenseExpression}",
@@ -100,7 +108,6 @@ namespace NuGet.Licenses.Controllers
                 return InvalidRequest();
             }
         }
-
         private ActionResult InvalidRequest(string errorText = null)
         {
             var model = new InvalidRequestModel(errorText);
