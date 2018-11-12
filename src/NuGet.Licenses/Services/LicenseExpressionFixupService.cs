@@ -11,6 +11,11 @@ namespace NuGet.Licenses.Services
     {
         public string FixupLicenseExpression(string undecodedLicenseExpression)
         {
+            if (undecodedLicenseExpression == null)
+            {
+                throw new ArgumentNullException(nameof(undecodedLicenseExpression));
+            }
+
             var funnyEncodingIndicators = new string[] { "+OR+", "+AND+", "+WITH+" };
 
             var funnyEncoded = funnyEncodingIndicators.Any(indicator => undecodedLicenseExpression.Contains(indicator));
