@@ -24,7 +24,7 @@ namespace NuGet.Licenses.Tests
             new object[]{ "MIT+" },
             new object[]{ "MIT OR Apache-2.0" },
             new object[]{ "MIT+ OR Apache-2.0" },
-            new object[]{ "MIT OR (Foo AND bar)" },
+            new object[]{ "MIT OR (Foo+ AND bar)" },
         };
 
         [Theory]
@@ -42,7 +42,7 @@ namespace NuGet.Licenses.Tests
         [MemberData(nameof(LicenseExpressions))]
         public void CorrectlyDetectsAndDecodesProperlyEncodedExpressions(string licenseExpression)
         {
-            var encoded = Uri.EscapeDataString(licenseExpression);
+            var encoded = GetUriEncodedLicenseExpression(licenseExpression);
 
             var result = _target.FixupLicenseExpression(encoded);
 
@@ -53,12 +53,18 @@ namespace NuGet.Licenses.Tests
         [MemberData(nameof(LicenseExpressions))]
         public void CorrectlyDetectsAndDecodesProperlyWithUnencodedPluses(string licenseExpression)
         {
-            var encoded = Uri.EscapeDataString(licenseExpression);
+            var encoded = GetUriEncodedLicenseExpression(licenseExpression);
             encoded = encoded.Replace("%2B", "+");
 
             var result = _target.FixupLicenseExpression(encoded);
 
             Assert.Equal(licenseExpression, result);
+        }
+
+        private string GetUriEncodedLicenseExpression(string licenseExpression)
+        {
+            var uri = new Uri(new Uri("http://example.com"), licenseExpression);
+            return uri.AbsolutePath.Substring(1);
         }
 
         private LicenseExpressionFixupService _target;
