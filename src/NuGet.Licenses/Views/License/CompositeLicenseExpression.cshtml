@@ -4,7 +4,7 @@
 @functions {
     static string GetRunSpecificClass(CompositeLicenseExpressionRunType runType)
     {
-        return runType.ToString().ToLowerInvariant().Replace("identifier", "");
+        return runType == CompositeLicenseExpressionRunType.Operator ? "operator" : "";
     }
 
     static bool IsLicenseOrException(CompositeLicenseExpressionRun run)
@@ -12,6 +12,8 @@
         return run.Type == CompositeLicenseExpressionRunType.LicenseIdentifier || run.Type == CompositeLicenseExpressionRunType.ExceptionIdentifier;
     }
 }
+
+@* The following two helpers must be on a single line each so no extra whitespace is introduced in the expression when rendered. *@
 
 @helper MakeLink(CompositeLicenseExpressionRun run) {<a href="@run.Value" class="@GetRunSpecificClass(run.Type)">@run.Value</a>}
 @helper MakeSpan(CompositeLicenseExpressionRun run) {<span class="@GetRunSpecificClass(run.Type)">@run.Value</span>}
