@@ -9,6 +9,15 @@ namespace NuGet.Licenses.Services
 {
     public class LicenseExpressionDecodingService : ILicenseExpressionDecodingService
     {
+        /// <remarks>
+        /// When there are not spaces present, the decoding results are the same
+        /// between 15.9 client encoding and "proper" encoding.
+        /// The cases when spaces matter are the cases when composite license
+        /// expression is used, i.e. OR, AND or WITH operators are used and
+        /// since spec prescribes them to have spaces on both sides, we'll just
+        /// check for the presence of "+OR+", "+AND+" or "+WITH+" substrings
+        /// and decode differently based on that.
+        /// </remarks>
         public string DecodeLicenseExpression(string encodedLicenseExpression)
         {
             if (encodedLicenseExpression == null)

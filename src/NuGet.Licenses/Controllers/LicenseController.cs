@@ -91,7 +91,7 @@ namespace NuGet.Licenses.Controllers
 
                     if (complexLicenseExpressionRoot == null)
                     {
-                        _logger.LogError("Unexpectedly unable to cast NuGetLicenseExpression to LicenseOperator wgeb Type == Operator while processing {LicenseExpression}",
+                        _logger.LogError("Unexpectedly unable to cast NuGetLicenseExpression to LicenseOperator with Type == Operator while processing {LicenseExpression}",
                             licenseExpression);
                         return InvalidRequest();
                     }

@@ -12,7 +12,7 @@ namespace NuGet.Licenses.Services
     {
         /// <summary>
         /// Does an in-order traversal of a license expression tree restoring the sequence of tokens
-        /// used in the expression (omitting all parentheses an whitespace)
+        /// used in the expression (omitting all parentheses and whitespace)
         /// </summary>
         /// <param name="licenseExpressionRoot">Root of the license expression tree</param>
         /// <returns>The list of license expression token in the order they appeared in the original expression.</returns>

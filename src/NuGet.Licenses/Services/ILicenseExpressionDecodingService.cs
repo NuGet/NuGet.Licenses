@@ -21,14 +21,6 @@ namespace NuGet.Licenses.Services
         /// So, we set up IIS to pass undecoded strings to us and here we'll
         /// try to detect how license expression was encoded and try to decode
         /// it properly.
-        /// 
-        /// When there are not spaces present, the decoding results are the same
-        /// between client encoding and "proper" encoding.
-        /// The cases when spaces matter are the cases when composite license
-        /// expression is used, i.e.OR, AND or WITH operators are used and
-        /// since spec prescribes them to have spaces on both sides, we'll just
-        /// check for the presence of "+OR+", "+AND+" or "+WITH+" substrings
-        /// and decode differently based on that.
         /// </remarks>
         /// <param name="encodedLicenseExpression">License expression as we received it in HTTP request without any URL decoding done.</param>
         /// <returns>License expression ready to feed to the parser.</returns>

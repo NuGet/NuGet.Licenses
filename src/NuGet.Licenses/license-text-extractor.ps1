@@ -7,7 +7,7 @@
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;
 
 $licenseResponseData = Invoke-RestMethod "https://raw.githubusercontent.com/spdx/license-list-data/master/json/licenses.json"
-$licesnseIds = $licenseResponseData.licenses | Where-Object {(-not $_.isDeprecatedLicenseId) -and ($_.isOsiApproved -or $_.isFsfLibre) } | Select-Object -ExpandProperty licenseId | Sort-Object
+$licenseIds = $licenseResponseData.licenses | Where-Object {(-not $_.isDeprecatedLicenseId) -and ($_.isOsiApproved -or $_.isFsfLibre) } | Select-Object -ExpandProperty licenseId | Sort-Object
 $deprecatedLicenseIds = $licenseResponseData.licenses | Where-Object {($_.isDeprecatedLicenseId)} | Select-Object -ExpandProperty licenseId | Sort-Object
 
 # expression analyzer is a bit sensitive for unknown license exceptions, so we'll use specific source until client gets support.
@@ -113,7 +113,7 @@ $outDir = "Licenses"
 new-item -ItemType Directory -Force $outDir
 
 ### parse all licenses ###
-foreach ($licenseId in ($licesnseIds))
+foreach ($licenseId in ($licenseIds))
 {
     $licenseDetailsUrl = "https://raw.githubusercontent.com/spdx/license-list-data/master/json/details/$licenseId.json"
 

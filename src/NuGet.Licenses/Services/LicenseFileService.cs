@@ -10,19 +10,23 @@ namespace NuGet.Licenses
     {
         private readonly ILicensesFolderPathService _licensesFolderPathService;
         private readonly IFileService _fileService;
+
         public LicenseFileService(ILicensesFolderPathService licensesFolderPathService, IFileService fileService)
         {
             _licensesFolderPathService = licensesFolderPathService ?? throw new ArgumentNullException(nameof(licensesFolderPathService));
             _fileService = fileService ?? throw new ArgumentNullException(nameof(fileService));
         }
+
         public bool DoesLicenseFileExist(string licenseIdentifier)
         {
             return _fileService.DoesFileExist(GetLicenseFilePath(licenseIdentifier));
         }
+
         public string GetLicenseFileContent(string licenseIdentifier)
         {
             return _fileService.ReadFileContent(GetLicenseFilePath(licenseIdentifier));
         }
+
         private string GetLicenseFilePath(string licenseIdentifier)
         {
             string licenseFilePath = _fileService.GetFileFullPath(Path.Combine(_licensesFolderPathService.GetLicensesFolderPath(), String.Concat(licenseIdentifier, ".txt")));
@@ -33,6 +37,7 @@ namespace NuGet.Licenses
 
             return licenseFilePath;
         }
+
         private bool IsLicenseFilePathAllowed(string licenseFilePath)
         {
             return licenseFilePath.StartsWith(_licensesFolderPathService.GetLicensesFolderPath());
