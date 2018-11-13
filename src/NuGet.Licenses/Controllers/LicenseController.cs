@@ -15,13 +15,13 @@ namespace NuGet.Licenses.Controllers
         private readonly ILicenseExpressionSplitter _licenseExpressionSplitter;
         private readonly ILogger<LicenseController> _logger;
         private readonly ILicenseFileService _licenseFileService;
-        private readonly ILicenseExpressionFixupService _licenseExpressionFixupService;
+        private readonly ILicenseExpressionDecodingService _licenseExpressionFixupService;
 
         public LicenseController(
             ILicenseExpressionSplitter licenseExpressionSplitter,
             ILogger<LicenseController> logger,
             ILicenseFileService licenseFileService,
-            ILicenseExpressionFixupService licenseExpressionFixupService)
+            ILicenseExpressionDecodingService licenseExpressionFixupService)
         {
             _licenseExpressionSplitter = licenseExpressionSplitter ?? throw new ArgumentNullException(nameof(licenseExpressionSplitter));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

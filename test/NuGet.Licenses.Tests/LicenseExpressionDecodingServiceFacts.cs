@@ -9,7 +9,7 @@ using Xunit;
 
 namespace NuGet.Licenses.Tests
 {
-    public class LicenseExpressionFixupServiceFacts
+    public class LicenseExpressionDecodingServiceFacts
     {
         [Fact]
         public void ThrowsIfLicenseExpressionIsNull()
@@ -67,11 +67,11 @@ namespace NuGet.Licenses.Tests
             return uri.AbsolutePath.Substring(1);
         }
 
-        private LicenseExpressionFixupService _target;
+        private LicenseExpressionDecodingService _target;
 
-        public LicenseExpressionFixupServiceFacts()
+        public LicenseExpressionDecodingServiceFacts()
         {
-            _target = new LicenseExpressionFixupService();
+            _target = new LicenseExpressionDecodingService();
         }
     }
 }

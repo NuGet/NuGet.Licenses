@@ -96,8 +96,8 @@ namespace NuGet.Licenses
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<LicenseExpressionFixupService>()
-                .As<ILicenseExpressionFixupService>()
+                .RegisterType<LicenseExpressionDecodingService>()
+                .As<ILicenseExpressionDecodingService>()
                 .InstancePerLifetimeScope();
 
             var container = builder.Build();

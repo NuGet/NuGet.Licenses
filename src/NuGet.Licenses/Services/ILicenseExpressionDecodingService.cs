@@ -6,7 +6,7 @@ namespace NuGet.Licenses.Services
     /// <summary>
     /// Interface for a service that does initial pre-processing of a license expression.
     /// </summary>
-    public interface ILicenseExpressionFixupService
+    public interface ILicenseExpressionDecodingService
     {
         /// <summary>
         /// Detects and fixes the URL encoding issues that might be present

@@ -7,7 +7,7 @@ using System.Net;
 
 namespace NuGet.Licenses.Services
 {
-    public class LicenseExpressionFixupService : ILicenseExpressionFixupService
+    public class LicenseExpressionDecodingService : ILicenseExpressionDecodingService
     {
         public string FixupLicenseExpression(string undecodedLicenseExpression)
         {
