@@ -14,8 +14,8 @@ namespace NuGet.Licenses.Tests
         [Fact]
         public void ThrowsIfLicenseExpressionIsNull()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => _target.FixupLicenseExpression(null));
-            Assert.Equal("undecodedLicenseExpression", ex.ParamName);
+            var ex = Assert.Throws<ArgumentNullException>(() => _target.DecodeLicenseExpression(null));
+            Assert.Equal("encodedLicenseExpression", ex.ParamName);
         }
 
         public static IEnumerable<object[]> LicenseExpressions => new object[][]
@@ -33,7 +33,7 @@ namespace NuGet.Licenses.Tests
         {
             var encoded = WebUtility.UrlEncode(licenseExpression);
 
-            var result = _target.FixupLicenseExpression(encoded);
+            var result = _target.DecodeLicenseExpression(encoded);
 
             Assert.Equal(licenseExpression, result);
         }
@@ -44,7 +44,7 @@ namespace NuGet.Licenses.Tests
         {
             var encoded = GetUriEncodedLicenseExpression(licenseExpression);
 
-            var result = _target.FixupLicenseExpression(encoded);
+            var result = _target.DecodeLicenseExpression(encoded);
 
             Assert.Equal(licenseExpression, result);
         }
@@ -56,7 +56,7 @@ namespace NuGet.Licenses.Tests
             var encoded = GetUriEncodedLicenseExpression(licenseExpression);
             encoded = encoded.Replace("%2B", "+");
 
-            var result = _target.FixupLicenseExpression(encoded);
+            var result = _target.DecodeLicenseExpression(encoded);
 
             Assert.Equal(licenseExpression, result);
         }

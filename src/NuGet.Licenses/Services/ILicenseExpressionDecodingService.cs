@@ -30,8 +30,8 @@ namespace NuGet.Licenses.Services
         /// check for the presence of "+OR+", "+AND+" or "+WITH+" substrings
         /// and decode differently based on that.
         /// </remarks>
-        /// <param name="undecodedLicenseExpression">License expression as we received it in HTTP request without any URL decoding done.</param>
+        /// <param name="encodedLicenseExpression">License expression as we received it in HTTP request without any URL decoding done.</param>
         /// <returns>License expression ready to feed to the parser.</returns>
-        string FixupLicenseExpression(string undecodedLicenseExpression);
+        string DecodeLicenseExpression(string encodedLicenseExpression);
     }
 }

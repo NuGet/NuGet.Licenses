@@ -9,38 +9,38 @@ namespace NuGet.Licenses.Services
 {
     public class LicenseExpressionDecodingService : ILicenseExpressionDecodingService
     {
-        public string FixupLicenseExpression(string undecodedLicenseExpression)
+        public string DecodeLicenseExpression(string encodedLicenseExpression)
         {
-            if (undecodedLicenseExpression == null)
+            if (encodedLicenseExpression == null)
             {
-                throw new ArgumentNullException(nameof(undecodedLicenseExpression));
+                throw new ArgumentNullException(nameof(encodedLicenseExpression));
             }
 
             var client15_9EncodingIndicators = new string[] { "+OR+", "+AND+", "+WITH+" };
 
-            var encodedByClient15_9 = client15_9EncodingIndicators.Any(indicator => undecodedLicenseExpression.Contains(indicator));
+            var encodedByClient15_9 = client15_9EncodingIndicators.Any(indicator => encodedLicenseExpression.Contains(indicator));
 
             if (encodedByClient15_9)
             {
-                return Decode15_9ClientLicenseExpression(undecodedLicenseExpression);
+                return Decode15_9ClientLicenseExpression(encodedLicenseExpression);
             }
 
-            return DecodeRegularLicenseExpression(undecodedLicenseExpression);
+            return DecodeRegularLicenseExpression(encodedLicenseExpression);
         }
 
-        private string Decode15_9ClientLicenseExpression(string undecodedLicenseExpression)
+        private string Decode15_9ClientLicenseExpression(string encodedLicenseExpression)
         {
             // client uses WebUtility.UrlEncode, so we'll use its decoding
             // counterpart to process the string
-            return WebUtility.UrlDecode(undecodedLicenseExpression);
+            return WebUtility.UrlDecode(encodedLicenseExpression);
 
             // The following also works if we don't want to do full decoding:
             //return undecodedLicenseExpression.Replace("+", " ").Replace("%2B", "+");
         }
 
-        private string DecodeRegularLicenseExpression(string undecodedLicenseExpression)
+        private string DecodeRegularLicenseExpression(string encodedLicenseExpression)
         {
-            return Uri.UnescapeDataString(undecodedLicenseExpression);
+            return Uri.UnescapeDataString(encodedLicenseExpression);
 
             // The following also works if we don't want to do full decoding:
             //return undecodedLicenseExpression.Replace("%20", " ").Replace("%2B", "+");

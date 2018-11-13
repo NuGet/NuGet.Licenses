@@ -20,7 +20,7 @@ namespace NuGet.Licenses.Services
     /// /MIT page, while 'OR', whitespace and parentheses are not).
     /// So we split the string into the series of "runs" each representing some element of the expression.
     /// 
-    /// The complacated case is:
+    /// The complicated case is:
     /// 
     /// (((MIT OR   (ISC))))
     /// 

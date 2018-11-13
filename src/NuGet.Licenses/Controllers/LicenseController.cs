@@ -15,18 +15,18 @@ namespace NuGet.Licenses.Controllers
         private readonly ILicenseExpressionSplitter _licenseExpressionSplitter;
         private readonly ILogger<LicenseController> _logger;
         private readonly ILicenseFileService _licenseFileService;
-        private readonly ILicenseExpressionDecodingService _licenseExpressionFixupService;
+        private readonly ILicenseExpressionDecodingService _licenseExpressionDecodingService;
 
         public LicenseController(
             ILicenseExpressionSplitter licenseExpressionSplitter,
             ILogger<LicenseController> logger,
             ILicenseFileService licenseFileService,
-            ILicenseExpressionDecodingService licenseExpressionFixupService)
+            ILicenseExpressionDecodingService licenseExpressionDecodingService)
         {
             _licenseExpressionSplitter = licenseExpressionSplitter ?? throw new ArgumentNullException(nameof(licenseExpressionSplitter));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _licenseFileService = licenseFileService ?? throw new ArgumentNullException(nameof(licenseFileService));
-            _licenseExpressionFixupService = licenseExpressionFixupService ?? throw new ArgumentNullException(nameof(licenseExpressionFixupService));
+            _licenseExpressionDecodingService = licenseExpressionDecodingService ?? throw new ArgumentNullException(nameof(licenseExpressionDecodingService));
         }
 
         public ActionResult Index()
@@ -41,19 +41,19 @@ namespace NuGet.Licenses.Controllers
 
             using (_logger.BeginScope("{IssueId}", issueId))
             {
-                var processedLicenseExpression = _licenseExpressionFixupService.FixupLicenseExpression(licenseExpression);
+                var processedLicenseExpression = _licenseExpressionDecodingService.DecodeLicenseExpression(licenseExpression);
 
                 if (NuGetLicenseData.ExceptionList.TryGetValue(processedLicenseExpression, out var exceptionData))
                 {
                     return DisplayException(exceptionData);
                 }
 
-                NuGetLicenseExpression licenseExpressionRootNode;
-
                 if (processedLicenseExpression == null || processedLicenseExpression.Length > 500)
                 {
                     return InvalidRequest();
                 }
+
+                NuGetLicenseExpression licenseExpressionRootNode;
 
                 try
                 {
@@ -105,6 +105,7 @@ namespace NuGet.Licenses.Controllers
                 return InvalidRequest();
             }
         }
+
         private ActionResult InvalidRequest(string errorText = null)
         {
             var model = new InvalidRequestModel(errorText);
