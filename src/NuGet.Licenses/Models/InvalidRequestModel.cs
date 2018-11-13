@@ -7,7 +7,7 @@ namespace NuGet.Licenses.Models
 {
     public class InvalidRequestModel
     {
-        public InvalidRequestModel(string errorMessage)
+        public InvalidRequestModel(string errorMessage = null)
         {
             Message = errorMessage; // OK to be null
         }

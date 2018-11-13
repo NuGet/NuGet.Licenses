@@ -38,7 +38,7 @@ namespace NuGet.Licenses.Controllers
         public ActionResult DisplayLicense(string licenseExpression)
         {
             var issueId = Guid.NewGuid();
-            ViewBag.IssueId = Activity.Current?.Id ?? "";
+            ViewBag.IssueId = Activity.Current?.Id;
 
             var processedLicenseExpression = _licenseExpressionDecodingService.DecodeLicenseExpression(licenseExpression);
 
