@@ -21,3 +21,7 @@ pre {
 #license-expression > .operator {
     font-weight: bold;
 }
+
+#license-expression > a {
+    white-space: nowrap;
+}
