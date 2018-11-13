@@ -16,11 +16,11 @@ namespace NuGet.Licenses.Services
                 throw new ArgumentNullException(nameof(undecodedLicenseExpression));
             }
 
-            var funnyEncodingIndicators = new string[] { "+OR+", "+AND+", "+WITH+" };
+            var client15_9EncodingIndicators = new string[] { "+OR+", "+AND+", "+WITH+" };
 
-            var funnyEncoded = funnyEncodingIndicators.Any(indicator => undecodedLicenseExpression.Contains(indicator));
+            var encodedByClient15_9 = client15_9EncodingIndicators.Any(indicator => undecodedLicenseExpression.Contains(indicator));
 
-            if (funnyEncoded)
+            if (encodedByClient15_9)
             {
                 return Decode15_9ClientLicenseExpression(undecodedLicenseExpression);
             }
