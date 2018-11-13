@@ -9,7 +9,7 @@ namespace NuGet.Licenses.Services
 {
     /// <summary>
     /// Interface for a helper class that allows given the license expression string convert it to a 
-    /// series of "runs" that allow to identify elements (license ids, exception ids, operators, etc.)
+    /// series of "segments" that allow to identify elements (license ids, exception ids, operators, etc.)
     /// of license expression inside that string individually.
     /// </summary>
     /// <remarks>
@@ -18,7 +18,7 @@ namespace NuGet.Licenses.Services
     /// license expression we should be able to display it while linking individual elements to their
     /// respective license or exception URLs (so 'MIT' when displayed on a web page is a link to
     /// /MIT page, while 'OR', whitespace and parentheses are not).
-    /// So we split the string into the series of "runs" each representing some element of the expression.
+    /// So we split the string into the series of "segments" each representing some element of the expression.
     /// 
     /// The complicated case is:
     /// 
@@ -30,28 +30,30 @@ namespace NuGet.Licenses.Services
     public interface ILicenseExpressionSplitter
     {
         /// <summary>
-        /// Given the root of the license expression tree restores the sequence of "runs" for a license
-        /// expression represented by that tree. Only meaningful "runs" are returned by this method.
+        /// Given the root of the license expression tree restores the sequence of "segments" for a license
+        /// expression represented by that tree. Only meaningful (license or exceptions ids and operators) 
+        /// "segments" are returned by this method.
         /// </summary>
         /// <param name="licenseExpressionRoot">Root of the license expresion tree</param>
-        /// <returns>The list of the runs restored from the tree.</returns>
+        /// <returns>The list of the segments restored from the tree.</returns>
         /// <remarks>
-        /// This method only returns "runs" of types <see cref="CompositeLicenseExpressionRunType.LicenseIdentifier"/>,
-        /// <see cref="CompositeLicenseExpressionRunType.ExceptionIdentifier"/>
-        /// and <see cref="CompositeLicenseExpressionRunType.Operator"/>.
+        /// This method only returns "segments" of types <see cref="CompositeLicenseExpressionSegmentType.LicenseIdentifier"/>,
+        /// <see cref="CompositeLicenseExpressionSegmentType.ExceptionIdentifier"/>
+        /// and <see cref="CompositeLicenseExpressionSegmentType.Operator"/>.
         /// 
         /// It cannot restore extra whitespace and parentheses that might have been present in the original expression.
         /// </remarks>
-        List<CompositeLicenseExpressionRun> GetLicenseExpressionRuns(LicenseOperator licenseExpressionRoot);
+        List<CompositeLicenseExpressionSegment> GetLicenseExpressionSegments(LicenseOperator licenseExpressionRoot);
 
         /// <summary>
-        /// "Projects" the list of the runs provided by <see cref="GetLicenseExpressionRuns(LicenseOperator)"/> methods
-        /// onto the license expression string discovering any extra "runs" of
-        /// type <see cref="CompositeLicenseExpressionRunType.Other"/> it might have.
+        /// "Projects" the list of the segments provided by
+        /// <see cref="GetLicenseExpressionSegments(LicenseOperator)"/> method
+        /// onto the license expression string discovering any extra "segments" of
+        /// type <see cref="CompositeLicenseExpressionSegmentType.Other"/> it might have.
         /// </summary>
         /// <param name="licenseExpression">License expression string to get additional information from.</param>
-        /// <param name="runs">List of the runs returned by <see cref="GetLicenseExpressionRuns(LicenseOperator)"/></param>
-        /// <returns>The complete list of "runs" making up the license expression including any extra data it might have.</returns>
-        List<CompositeLicenseExpressionRun> SplitFullExpression(string licenseExpression, IReadOnlyCollection<CompositeLicenseExpressionRun> runs);
+        /// <param name="segments">List of the segments returned by <see cref="GetLicenseExpressionSegments(LicenseOperator)"/></param>
+        /// <returns>The complete list of "segments" making up the license expression including any extra data it might have.</returns>
+        List<CompositeLicenseExpressionSegment> SplitFullExpression(string licenseExpression, IReadOnlyCollection<CompositeLicenseExpressionSegment> segments);
     }
 }

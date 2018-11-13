@@ -155,10 +155,10 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
         {
-            var runs = _licenseExpressionSplitter.GetLicenseExpressionRuns(licenseExpressionRoot);
-            var fullRuns = _licenseExpressionSplitter.SplitFullExpression(licenseExpression, runs);
+            var meaningfulSegments = _licenseExpressionSplitter.GetLicenseExpressionSegments(licenseExpressionRoot);
+            var allSegments = _licenseExpressionSplitter.SplitFullExpression(licenseExpression, meaningfulSegments);
 
-            return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(fullRuns));
+            return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(allSegments));
         }
     }
 }

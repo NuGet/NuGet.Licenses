@@ -2,36 +2,36 @@
 @using NuGet.Licenses.Models
 
 @functions {
-    static string GetRunSpecificClass(CompositeLicenseExpressionRunType runType)
+    static string GetSegmentSpecificClass(CompositeLicenseExpressionSegmentType segmentType)
     {
-        return runType == CompositeLicenseExpressionRunType.Operator ? "operator" : "";
+        return segmentType == CompositeLicenseExpressionSegmentType.Operator ? "operator" : "";
     }
 
-    static bool IsLicenseOrException(CompositeLicenseExpressionRun run)
+    static bool IsLicenseOrException(CompositeLicenseExpressionSegment segment)
     {
-        return run.Type == CompositeLicenseExpressionRunType.LicenseIdentifier || run.Type == CompositeLicenseExpressionRunType.ExceptionIdentifier;
+        return segment.Type == CompositeLicenseExpressionSegmentType.LicenseIdentifier || segment.Type == CompositeLicenseExpressionSegmentType.ExceptionIdentifier;
     }
 }
 
 @* The following two helpers must be on a single line each so no extra whitespace is introduced in the expression when rendered. *@
 
-@helper MakeLink(CompositeLicenseExpressionRun run) {<a href="@run.Value" class="@GetRunSpecificClass(run.Type)">@run.Value</a>}
-@helper MakeSpan(CompositeLicenseExpressionRun run) {<span class="@GetRunSpecificClass(run.Type)">@run.Value</span>}
+@helper MakeLink(CompositeLicenseExpressionSegment segment) {<a href="@segment.Value" class="@GetSegmentSpecificClass(segment.Type)">@segment.Value</a>}
+@helper MakeSpan(CompositeLicenseExpressionSegment segment) {<span class="@GetSegmentSpecificClass(segment.Type)">@segment.Value</span>}
 
 <p>
     Composite license expression:
 </p>
 
 <div id="license-expression">
-    @foreach (var run in Model.Runs)
+    @foreach (var segment in Model.Segments)
     {
-        if (IsLicenseOrException(run))
+        if (IsLicenseOrException(segment))
         {
-            @MakeLink(run);
+            @MakeLink(segment);
         }
         else
         {
-            @MakeSpan(run);
+            @MakeSpan(segment);
         }
     }
 </div>

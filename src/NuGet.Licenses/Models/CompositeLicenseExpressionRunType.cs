@@ -4,12 +4,12 @@
 namespace NuGet.Licenses.Models
 {
     /// <summary>
-    /// Used to specify type of the Run for complex license expression display
+    /// Used to specify type of the Segment for complex license expression display
     /// </summary>
-    public enum CompositeLicenseExpressionRunType
+    public enum CompositeLicenseExpressionSegmentType
     {
         /// <summary>
-        /// Catch-all type for all runs that don't have otherwise specific type
+        /// Catch-all type for all that don't have otherwise specific type
         /// (used mostly for parentheses)
         /// </summary>
         Other = 0,

@@ -8,9 +8,9 @@ namespace NuGet.Licenses.Models
     /// <summary>
     /// Represents a portion of a complex license expression allowing to specify its type.
     /// </summary>
-    public class CompositeLicenseExpressionRun
+    public class CompositeLicenseExpressionSegment
     {
-        public CompositeLicenseExpressionRun(string textValue, CompositeLicenseExpressionRunType type)
+        public CompositeLicenseExpressionSegment(string textValue, CompositeLicenseExpressionSegmentType type)
         {
             Value = textValue ?? throw new ArgumentNullException(nameof(textValue));
             Type = type;
@@ -24,6 +24,6 @@ namespace NuGet.Licenses.Models
         /// <summary>
         /// Type of the license expression option
         /// </summary>
-        public CompositeLicenseExpressionRunType Type { get; }
+        public CompositeLicenseExpressionSegmentType Type { get; }
     }
 }

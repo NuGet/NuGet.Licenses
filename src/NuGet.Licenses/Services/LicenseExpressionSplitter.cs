@@ -16,78 +16,78 @@ namespace NuGet.Licenses.Services
         /// </summary>
         /// <param name="licenseExpressionRoot">Root of the license expression tree</param>
         /// <returns>The list of license expression token in the order they appeared in the original expression.</returns>
-        public List<CompositeLicenseExpressionRun> GetLicenseExpressionRuns(LicenseOperator licenseExpressionRoot)
+        public List<CompositeLicenseExpressionSegment> GetLicenseExpressionSegments(LicenseOperator licenseExpressionRoot)
         {
             if (licenseExpressionRoot == null)
             {
                 throw new ArgumentNullException(nameof(licenseExpressionRoot));
             }
 
-            var runList = new List<CompositeLicenseExpressionRun>();
-            InOrderTraversal(licenseExpressionRoot, runList);
-            return runList;
+            var segmentList = new List<CompositeLicenseExpressionSegment>();
+            InOrderTraversal(licenseExpressionRoot, segmentList);
+            return segmentList;
         }
 
         /// <summary>
-        /// Given the original license expression and list of runs produced by <see cref="GetLicenseExpressionRuns"/>
-        /// produces full split of the expression into list of runs that include all the characters of the original
+        /// Given the original license expression and list of segments produced by <see cref="GetLicenseExpressionSegments"/>
+        /// produces full split of the expression into list of segments that include all the characters of the original
         /// license expression (including the parentheses and whitespace).
         /// </summary>
         /// <param name="licenseExpression">Original license expression.</param>
-        /// <param name="runs">List of runs produced by <see cref="GetLicenseExpressionRuns"/></param>
-        /// <returns>List of runs including the characters that are lost during expression parsing</returns>
-        public List<CompositeLicenseExpressionRun> SplitFullExpression(string licenseExpression, IReadOnlyCollection<CompositeLicenseExpressionRun> runs)
+        /// <param name="segments">List of segments produced by <see cref="GetLicenseExpressionSegments"/></param>
+        /// <returns>List of segments including the characters that are lost during expression parsing</returns>
+        public List<CompositeLicenseExpressionSegment> SplitFullExpression(string licenseExpression, IReadOnlyCollection<CompositeLicenseExpressionSegment> segments)
         {
             if (licenseExpression == null)
             {
                 throw new ArgumentNullException(nameof(licenseExpression));
             }
 
-            if (runs == null)
+            if (segments == null)
             {
-                throw new ArgumentNullException(nameof(runs));
+                throw new ArgumentNullException(nameof(segments));
             }
 
-            var fullRunList = new List<CompositeLicenseExpressionRun>();
+            var fullSegmentList = new List<CompositeLicenseExpressionSegment>();
             var startIndex = 0;
-            foreach (var run in runs)
+            foreach (var segment in segments)
             {
-                var currentRunStartIndex = licenseExpression.IndexOf(run.Value, startIndex);
-                if (currentRunStartIndex < 0)
+                var currentSegmentStartIndex = licenseExpression.IndexOf(segment.Value, startIndex);
+                if (currentSegmentStartIndex < 0)
                 {
-                    throw new InvalidOperationException($"Unable to find '{run.Value}' portion of the license expression starting from {startIndex} in '{licenseExpression}'");
+                    throw new InvalidOperationException($"Unable to find '{segment.Value}' portion of the license expression starting from {startIndex} in '{licenseExpression}'");
                 }
-                if (currentRunStartIndex > startIndex)
+                if (currentSegmentStartIndex > startIndex)
                 {
-                    fullRunList.Add(
-                        new CompositeLicenseExpressionRun(licenseExpression.Substring(startIndex, currentRunStartIndex - startIndex),
-                        CompositeLicenseExpressionRunType.Other));
+                    fullSegmentList.Add(
+                        new CompositeLicenseExpressionSegment(licenseExpression.Substring(startIndex, currentSegmentStartIndex - startIndex),
+                        CompositeLicenseExpressionSegmentType.Other));
                 }
-                fullRunList.Add(run);
-                startIndex = currentRunStartIndex + run.Value.Length;
+                fullSegmentList.Add(segment);
+                startIndex = currentSegmentStartIndex + segment.Value.Length;
             }
 
             if (startIndex < licenseExpression.Length)
             {
-                fullRunList.Add(
-                    new CompositeLicenseExpressionRun(licenseExpression.Substring(startIndex),
-                    CompositeLicenseExpressionRunType.Other));
+                fullSegmentList.Add(
+                    new CompositeLicenseExpressionSegment(licenseExpression.Substring(startIndex),
+                    CompositeLicenseExpressionSegmentType.Other));
             }
 
-            return fullRunList;
+            return fullSegmentList;
         }
 
-        private static void InOrderTraversal(NuGetLicenseExpression root, List<CompositeLicenseExpressionRun> runList)
+        private static void InOrderTraversal(NuGetLicenseExpression root, List<CompositeLicenseExpressionSegment> segmentList)
         {
             switch (root.Type)
             {
                 case LicenseExpressionType.License:
                     {
                         var licenseNode = (NuGetLicense)root;
-                        runList.Add(new CompositeLicenseExpressionRun(licenseNode.Identifier, CompositeLicenseExpressionRunType.LicenseIdentifier));
+                        segmentList.Add(new CompositeLicenseExpressionSegment(licenseNode.Identifier, CompositeLicenseExpressionSegmentType.LicenseIdentifier));
                         if (licenseNode.Plus)
                         {
-                            runList.Add(new CompositeLicenseExpressionRun("+", CompositeLicenseExpressionRunType.Operator));
+                            segmentList.Add(new CompositeLicenseExpressionSegment("+", CompositeLicenseExpressionSegmentType.Operator));
                         }
                     }
                     break;
@@ -98,17 +98,17 @@ namespace NuGet.Licenses.Services
                         if (operatorNode.OperatorType == LicenseOperatorType.LogicalOperator)
                         {
                             var logicalOperator = (LogicalOperator)operatorNode;
-                            InOrderTraversal(logicalOperator.Left, runList);
-                            runList.Add(new CompositeLicenseExpressionRun(GetLogicalOperatorString(logicalOperator), CompositeLicenseExpressionRunType.Operator));
-                            InOrderTraversal(logicalOperator.Right, runList);
+                            InOrderTraversal(logicalOperator.Left, segmentList);
+                            segmentList.Add(new CompositeLicenseExpressionSegment(GetLogicalOperatorString(logicalOperator), CompositeLicenseExpressionSegmentType.Operator));
+                            InOrderTraversal(logicalOperator.Right, segmentList);
 
                         }
                         else if (operatorNode.OperatorType == LicenseOperatorType.WithOperator)
                         {
                             var withOperator = (WithOperator)operatorNode;
-                            InOrderTraversal(withOperator.License, runList);
-                            runList.Add(new CompositeLicenseExpressionRun("WITH", CompositeLicenseExpressionRunType.Operator));
-                            runList.Add(new CompositeLicenseExpressionRun(withOperator.Exception.Identifier, CompositeLicenseExpressionRunType.ExceptionIdentifier));
+                            InOrderTraversal(withOperator.License, segmentList);
+                            segmentList.Add(new CompositeLicenseExpressionSegment("WITH", CompositeLicenseExpressionSegmentType.Operator));
+                            segmentList.Add(new CompositeLicenseExpressionSegment(withOperator.Exception.Identifier, CompositeLicenseExpressionSegmentType.ExceptionIdentifier));
                         }
                         else
                         {

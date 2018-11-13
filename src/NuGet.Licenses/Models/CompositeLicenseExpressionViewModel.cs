@@ -8,11 +8,11 @@ namespace NuGet.Licenses.Models
 {
     public class CompositeLicenseExpressionViewModel
     {
-        public CompositeLicenseExpressionViewModel(IReadOnlyCollection<CompositeLicenseExpressionRun> runs)
+        public CompositeLicenseExpressionViewModel(IReadOnlyCollection<CompositeLicenseExpressionSegment> segments)
         {
-            Runs = runs ?? throw new ArgumentNullException(nameof(runs));
+            Segments = segments ?? throw new ArgumentNullException(nameof(segments));
         }
 
-        public IReadOnlyCollection<CompositeLicenseExpressionRun> Runs { get; }
+        public IReadOnlyCollection<CompositeLicenseExpressionSegment> Segments { get; }
     }
 }

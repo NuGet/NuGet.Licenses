@@ -10,15 +10,15 @@ using Xunit;
 
 namespace NuGet.Licenses.Tests
 {
-    public class TheGetLicenseExpressionRunsMethod : LicenseExpressionSplitterFactsBase
+    public class TheGetLicenseExpressionSegmentsMethod : LicenseExpressionSplitterFactsBase
     {
         [Fact]
         public void ThrowsWhenLicenseExpressionRootIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => _target.GetLicenseExpressionRuns(null));
+            Assert.Throws<ArgumentNullException>(() => _target.GetLicenseExpressionSegments(null));
         }
 
-        public static IEnumerable<object[]> LicenseExpressionsAndRuns => new object[][]
+        public static IEnumerable<object[]> LicenseExpressionsAndSegments => new object[][]
         {
             new object[] { "(MIT OR ISC)", new[] { License("MIT"), Or(), License("ISC") } },
             new object[] { "(((MIT  OR ISC)))", new[] { License("MIT"), Or(), License("ISC") } },
@@ -28,15 +28,15 @@ namespace NuGet.Licenses.Tests
         };
 
         [Theory]
-        [MemberData(nameof(LicenseExpressionsAndRuns))]
-        public void ProducesProperSequenceOfRuns(string licenseExpression, CompositeLicenseExpressionRun[] expectedSequence)
+        [MemberData(nameof(LicenseExpressionsAndSegments))]
+        public void ProducesProperSequenceOfSegments(string licenseExpression, CompositeLicenseExpressionSegment[] expectedSequence)
         {
             var expressionTreeRoot = NuGetLicenseExpression.Parse(licenseExpression);
 
-            var runs = _target.GetLicenseExpressionRuns((LicenseOperator)expressionTreeRoot);
+            var segments = _target.GetLicenseExpressionSegments((LicenseOperator)expressionTreeRoot);
 
-            Assert.NotNull(runs);
-            Assert.Equal(expectedSequence, runs, new ComplexLicenseExpressionRunEqualityComparer());
+            Assert.NotNull(segments);
+            Assert.Equal(expectedSequence, segments, new ComplexLicenseExpressionSegmentEqualityComparer());
         }
     }
 
@@ -45,18 +45,18 @@ namespace NuGet.Licenses.Tests
         [Fact]
         public void ThrowsWhenLicenseExpressionIsNull()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() => _target.SplitFullExpression(null, new CompositeLicenseExpressionRun[0]));
+            var ex = Assert.Throws<ArgumentNullException>(() => _target.SplitFullExpression(null, new CompositeLicenseExpressionSegment[0]));
             Assert.Equal("licenseExpression", ex.ParamName);
         }
 
         [Fact]
-        public void ThrowsWhenRunsIsNull()
+        public void ThrowsWhenSegmentIsNull()
         {
             var ex = Assert.Throws<ArgumentNullException>(() => _target.SplitFullExpression("", null));
-            Assert.Equal("runs", ex.ParamName);
+            Assert.Equal("segments", ex.ParamName);
         }
 
-        public static IEnumerable<object[]> LicenseExpressionsAndRuns => new object[][]
+        public static IEnumerable<object[]> LicenseExpressionsAndSegments => new object[][]
         {
             new object[] {
                 "(MIT OR ISC)",
@@ -81,12 +81,12 @@ namespace NuGet.Licenses.Tests
         };
 
         [Theory]
-        [MemberData(nameof(LicenseExpressionsAndRuns))]
-        public void AddsParenthesesAndWhitespace(string licenseExpression, CompositeLicenseExpressionRun[] runs, CompositeLicenseExpressionRun[] expectedRuns)
+        [MemberData(nameof(LicenseExpressionsAndSegments))]
+        public void AddsParenthesesAndWhitespace(string licenseExpression, CompositeLicenseExpressionSegment[] segments, CompositeLicenseExpressionSegment[] expectedSegments)
         {
-            var result = _target.SplitFullExpression(licenseExpression, runs);
+            var result = _target.SplitFullExpression(licenseExpression, segments);
 
-            Assert.Equal(expectedRuns, result, new ComplexLicenseExpressionRunEqualityComparer());
+            Assert.Equal(expectedSegments, result, new ComplexLicenseExpressionSegmentEqualityComparer());
         }
     }
 
@@ -100,26 +100,26 @@ namespace NuGet.Licenses.Tests
             _target = new LicenseExpressionSplitter();
         }
 
-        protected static CompositeLicenseExpressionRun License(string licenseId)
-            => new CompositeLicenseExpressionRun(licenseId, CompositeLicenseExpressionRunType.LicenseIdentifier);
+        protected static CompositeLicenseExpressionSegment License(string licenseId)
+            => new CompositeLicenseExpressionSegment(licenseId, CompositeLicenseExpressionSegmentType.LicenseIdentifier);
 
-        protected static CompositeLicenseExpressionRun Operator(string operatorName)
-            => new CompositeLicenseExpressionRun(operatorName, CompositeLicenseExpressionRunType.Operator);
+        protected static CompositeLicenseExpressionSegment Operator(string operatorName)
+            => new CompositeLicenseExpressionSegment(operatorName, CompositeLicenseExpressionSegmentType.Operator);
 
-        protected static CompositeLicenseExpressionRun Exception(string exceptionId)
-            => new CompositeLicenseExpressionRun(exceptionId, CompositeLicenseExpressionRunType.ExceptionIdentifier);
+        protected static CompositeLicenseExpressionSegment Exception(string exceptionId)
+            => new CompositeLicenseExpressionSegment(exceptionId, CompositeLicenseExpressionSegmentType.ExceptionIdentifier);
 
-        protected static CompositeLicenseExpressionRun Or() => Operator("OR");
-        protected static CompositeLicenseExpressionRun And() => Operator("AND");
-        protected static CompositeLicenseExpressionRun With() => Operator("WITH");
+        protected static CompositeLicenseExpressionSegment Or() => Operator("OR");
+        protected static CompositeLicenseExpressionSegment And() => Operator("AND");
+        protected static CompositeLicenseExpressionSegment With() => Operator("WITH");
 
-        protected static CompositeLicenseExpressionRun Other(string value)
-            => new CompositeLicenseExpressionRun(value, CompositeLicenseExpressionRunType.Other);
+        protected static CompositeLicenseExpressionSegment Other(string value)
+            => new CompositeLicenseExpressionSegment(value, CompositeLicenseExpressionSegmentType.Other);
     }
 
-    internal class ComplexLicenseExpressionRunEqualityComparer : IEqualityComparer<CompositeLicenseExpressionRun>
+    internal class ComplexLicenseExpressionSegmentEqualityComparer : IEqualityComparer<CompositeLicenseExpressionSegment>
     {
-        public bool Equals(CompositeLicenseExpressionRun x, CompositeLicenseExpressionRun y)
+        public bool Equals(CompositeLicenseExpressionSegment x, CompositeLicenseExpressionSegment y)
         {
             if (x == null || y == null)
             {
@@ -129,7 +129,7 @@ namespace NuGet.Licenses.Tests
             return x.Type == y.Type && x.Value == y.Value;
         }
 
-        public int GetHashCode(CompositeLicenseExpressionRun obj)
+        public int GetHashCode(CompositeLicenseExpressionSegment obj)
         {
             return obj.Type.GetHashCode() ^ obj.Value.GetHashCode();
         }
