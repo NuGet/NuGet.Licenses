@@ -22,12 +22,28 @@ namespace NuGet.Licenses.Services
 
             if (funnyEncoded)
             {
-                // client uses WebUtility.UrlEncode, so we'll use its decoding
-                // counterpart to process the string
-                return WebUtility.UrlDecode(undecodedLicenseExpression);
+                return Decode15_9ClientLicenseExpression(undecodedLicenseExpression);
             }
 
+            return DecodeRegularLicenseExpression(undecodedLicenseExpression);
+        }
+
+        private string Decode15_9ClientLicenseExpression(string undecodedLicenseExpression)
+        {
+            // client uses WebUtility.UrlEncode, so we'll use its decoding
+            // counterpart to process the string
+            return WebUtility.UrlDecode(undecodedLicenseExpression);
+
+            // The following also works if we don't want to do full decoding:
+            //return undecodedLicenseExpression.Replace("+", " ").Replace("%2B", "+");
+        }
+
+        private string DecodeRegularLicenseExpression(string undecodedLicenseExpression)
+        {
             return Uri.UnescapeDataString(undecodedLicenseExpression);
+
+            // The following also works if we don't want to do full decoding:
+            //return undecodedLicenseExpression.Replace("%20", " ").Replace("%2B", "+");
         }
     }
 }
