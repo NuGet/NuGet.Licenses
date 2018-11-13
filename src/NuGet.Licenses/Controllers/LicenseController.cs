@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Diagnostics;
 using System.Web.Mvc;
 using Microsoft.Extensions.Logging;
 using NuGet.Licenses.Models;
@@ -37,73 +38,70 @@ namespace NuGet.Licenses.Controllers
         public ActionResult DisplayLicense(string licenseExpression)
         {
             var issueId = Guid.NewGuid();
-            ViewBag.IssueId = issueId;
+            ViewBag.IssueId = Activity.Current?.Id ?? "";
 
-            using (_logger.BeginScope("{IssueId}", issueId))
+            var processedLicenseExpression = _licenseExpressionDecodingService.DecodeLicenseExpression(licenseExpression);
+
+            if (NuGetLicenseData.ExceptionList.TryGetValue(processedLicenseExpression, out var exceptionData))
             {
-                var processedLicenseExpression = _licenseExpressionDecodingService.DecodeLicenseExpression(licenseExpression);
+                return DisplayException(exceptionData);
+            }
 
-                if (NuGetLicenseData.ExceptionList.TryGetValue(processedLicenseExpression, out var exceptionData))
-                {
-                    return DisplayException(exceptionData);
-                }
+            if (processedLicenseExpression == null || processedLicenseExpression.Length > 500)
+            {
+                return InvalidRequest();
+            }
 
-                if (processedLicenseExpression == null || processedLicenseExpression.Length > 500)
+            NuGetLicenseExpression licenseExpressionRootNode;
+
+            try
+            {
+                licenseExpressionRootNode = NuGetLicenseExpression.Parse(processedLicenseExpression);
+            }
+            catch (NuGetLicenseExpressionParsingException e)
+            {
+                _logger.LogError(0, e, "Got exception while attempting to parse license expression {LicenseExpression}", licenseExpression);
+                return InvalidRequest($"Unable to parse the license expression: {licenseExpression}");
+            }
+
+            if (licenseExpressionRootNode.Type == LicenseExpressionType.License)
+            {
+                // root of the message can only be license if it's a simple license expression.
+                // or it's a license expression consisting of a single license with +
+                var license = licenseExpressionRootNode as NuGetLicense;
+
+                if (license == null)
                 {
+                    _logger.LogError("Unexpectedly unable to cast NuGetLicenseExpression to NuGetLicense when Type == License while processing {LicenseExpression}",
+                        licenseExpression);
                     return InvalidRequest();
                 }
 
-                NuGetLicenseExpression licenseExpressionRootNode;
-
-                try
+                if (!license.IsStandardLicense)
                 {
-                    licenseExpressionRootNode = NuGetLicenseExpression.Parse(processedLicenseExpression);
-                }
-                catch (NuGetLicenseExpressionParsingException e)
-                {
-                    _logger.LogError(0, e, "Got exception while attempting to parse license expression {LicenseExpression}", licenseExpression);
-                    return InvalidRequest($"Unable to parse the license expression: {licenseExpression}");
+                    return UnknownLicense(license);
                 }
 
-                if (licenseExpressionRootNode.Type == LicenseExpressionType.License)
-                {
-                    // root of the message can only be license if it's a simple license expression.
-                    // or it's a license expression consisting of a single license with +
-                    var license = licenseExpressionRootNode as NuGetLicense;
-
-                    if (license == null)
-                    {
-                        _logger.LogError("Unexpectedly unable to cast NuGetLicenseExpression to NuGetLicense when Type == License while processing {LicenseExpression}",
-                            licenseExpression);
-                        return InvalidRequest();
-                    }
-
-                    if (!license.IsStandardLicense)
-                    {
-                        return UnknownLicense(license);
-                    }
-
-                    return DisplayLicense(license);
-                }
-                else if (licenseExpressionRootNode.Type == LicenseExpressionType.Operator)
-                {
-                    var complexLicenseExpressionRoot = licenseExpressionRootNode as LicenseOperator;
-
-                    if (complexLicenseExpressionRoot == null)
-                    {
-                        _logger.LogError("Unexpectedly unable to cast NuGetLicenseExpression to LicenseOperator with Type == Operator while processing {LicenseExpression}",
-                            licenseExpression);
-                        return InvalidRequest();
-                    }
-
-                    return DisplayComplexLicenseExpression(complexLicenseExpressionRoot, processedLicenseExpression);
-                }
-
-                _logger.LogError("Unexpected license expression tree root type: {LicenseExpressionTreeRootType} for expression {LicenseExpression}",
-                    licenseExpressionRootNode.Type,
-                    licenseExpression);
-                return InvalidRequest();
+                return DisplayLicense(license);
             }
+            else if (licenseExpressionRootNode.Type == LicenseExpressionType.Operator)
+            {
+                var complexLicenseExpressionRoot = licenseExpressionRootNode as LicenseOperator;
+
+                if (complexLicenseExpressionRoot == null)
+                {
+                    _logger.LogError("Unexpectedly unable to cast NuGetLicenseExpression to LicenseOperator with Type == Operator while processing {LicenseExpression}",
+                        licenseExpression);
+                    return InvalidRequest();
+                }
+
+                return DisplayComplexLicenseExpression(complexLicenseExpressionRoot, processedLicenseExpression);
+            }
+
+            _logger.LogError("Unexpected license expression tree root type: {LicenseExpressionTreeRootType} for expression {LicenseExpression}",
+                licenseExpressionRootNode.Type,
+                licenseExpression);
+            return InvalidRequest();
         }
 
         private ActionResult InvalidRequest(string errorText = null)
