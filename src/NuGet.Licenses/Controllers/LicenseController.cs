@@ -13,18 +13,18 @@ namespace NuGet.Licenses.Controllers
 {
     public class LicenseController : Controller
     {
-        private readonly ILicenseExpressionSplitter _licenseExpressionSplitter;
+        private readonly ILicenseExpressionSegmentator _licenseExpressionSegmentator;
         private readonly ILogger<LicenseController> _logger;
         private readonly ILicenseFileService _licenseFileService;
         private readonly ILicenseExpressionDecodingService _licenseExpressionDecodingService;
 
         public LicenseController(
-            ILicenseExpressionSplitter licenseExpressionSplitter,
+            ILicenseExpressionSegmentator licenseExpressionSegmentator,
             ILogger<LicenseController> logger,
             ILicenseFileService licenseFileService,
             ILicenseExpressionDecodingService licenseExpressionDecodingService)
         {
-            _licenseExpressionSplitter = licenseExpressionSplitter ?? throw new ArgumentNullException(nameof(licenseExpressionSplitter));
+            _licenseExpressionSegmentator = licenseExpressionSegmentator ?? throw new ArgumentNullException(nameof(licenseExpressionSegmentator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _licenseFileService = licenseFileService ?? throw new ArgumentNullException(nameof(licenseFileService));
             _licenseExpressionDecodingService = licenseExpressionDecodingService ?? throw new ArgumentNullException(nameof(licenseExpressionDecodingService));
@@ -86,16 +86,16 @@ namespace NuGet.Licenses.Controllers
             }
             else if (licenseExpressionRootNode.Type == LicenseExpressionType.Operator)
             {
-                var complexLicenseExpressionRoot = licenseExpressionRootNode as LicenseOperator;
+                var compositeLicenseExpressionRoot = licenseExpressionRootNode as LicenseOperator;
 
-                if (complexLicenseExpressionRoot == null)
+                if (compositeLicenseExpressionRoot == null)
                 {
                     _logger.LogError("Unexpectedly unable to cast NuGetLicenseExpression to LicenseOperator with Type == Operator while processing {LicenseExpression}",
                         licenseExpression);
                     return InvalidRequest();
                 }
 
-                return DisplayComplexLicenseExpression(complexLicenseExpressionRoot, processedLicenseExpression);
+                return DisplayCompositeLicenseExpression(compositeLicenseExpressionRoot, processedLicenseExpression);
             }
 
             _logger.LogError("Unexpected license expression tree root type: {LicenseExpressionTreeRootType} for expression {LicenseExpression}",
@@ -151,10 +151,10 @@ namespace NuGet.Licenses.Controllers
             }
         }
 
-        private ActionResult DisplayComplexLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
+        private ActionResult DisplayCompositeLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
         {
-            var meaningfulSegments = _licenseExpressionSplitter.GetLicenseExpressionSegments(licenseExpressionRoot);
-            var allSegments = _licenseExpressionSplitter.SplitFullExpression(licenseExpression, meaningfulSegments);
+            var meaningfulSegments = _licenseExpressionSegmentator.GetLicenseExpressionSegments(licenseExpressionRoot);
+            var allSegments = _licenseExpressionSegmentator.SplitFullExpression(licenseExpression, meaningfulSegments);
 
             return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(allSegments));
         }

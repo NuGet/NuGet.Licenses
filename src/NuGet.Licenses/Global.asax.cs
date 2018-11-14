@@ -76,8 +76,8 @@ namespace NuGet.Licenses
                 .SingleInstance();
 
             builder
-                .RegisterType<LicenseExpressionSplitter>()
-                .As<ILicenseExpressionSplitter>()
+                .RegisterType<LicenseExpressionSegmentator>()
+                .As<ILicenseExpressionSegmentator>()
                 .InstancePerLifetimeScope();
 
             builder

@@ -6,7 +6,7 @@ using System;
 namespace NuGet.Licenses.Models
 {
     /// <summary>
-    /// Represents a portion of a complex license expression allowing to specify its type.
+    /// Represents a portion of a composite license expression allowing to specify its type.
     /// </summary>
     public class CompositeLicenseExpressionSegment
     {

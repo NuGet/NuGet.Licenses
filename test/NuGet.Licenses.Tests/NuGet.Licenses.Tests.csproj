@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LicenseExpressionDecodingServiceFacts.cs" />
-    <Compile Include="LicenseExpressionSplitterFacts.cs" />
+    <Compile Include="LicenseExpressionSegmentatorFacts.cs" />
     <Compile Include="LicenseFileServiceFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,7 +4,7 @@
 namespace NuGet.Licenses.Models
 {
     /// <summary>
-    /// Used to specify type of the Segment for complex license expression display
+    /// Used to specify type of the Segment for composte license expression display
     /// </summary>
     public enum CompositeLicenseExpressionSegmentType
     {

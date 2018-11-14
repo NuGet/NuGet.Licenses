@@ -74,8 +74,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CompositeLicenseExpressionRun.cs" />
-    <Compile Include="Models\CompositeLicenseExpressionRunType.cs" />
+    <Compile Include="Models\CompositeLicenseExpressionSegment.cs" />
+    <Compile Include="Models\CompositeLicenseExpressionSegmentType.cs" />
     <Compile Include="Models\CompositeLicenseExpressionViewModel.cs" />
     <Compile Include="Models\InvalidRequestModel.cs" />
     <Compile Include="Models\SingleLicenseInformationModel.cs" />
@@ -84,11 +84,11 @@
     <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\ILicenseExpressionDecodingService.cs" />
+    <Compile Include="Services\ILicenseExpressionSegmentator.cs" />
     <Compile Include="Services\ILicensesFolderPathService.cs" />
     <Compile Include="Services\LicenseExpressionDecodingService.cs" />
+    <Compile Include="Services\LicenseExpressionSegmentator.cs" />
     <Compile Include="Services\LicensesFolderPathService.cs" />
-    <Compile Include="Services\ILicenseExpressionSplitter.cs" />
-    <Compile Include="Services\LicenseExpressionSplitter.cs" />
     <Compile Include="Services\ILicenseFileService.cs" />
     <Compile Include="Services\LicenseFileService.cs" />
   </ItemGroup>

@@ -10,7 +10,7 @@ using Xunit;
 
 namespace NuGet.Licenses.Tests
 {
-    public class TheGetLicenseExpressionSegmentsMethod : LicenseExpressionSplitterFactsBase
+    public class TheGetLicenseExpressionSegmentsMethod : LicenseExpressionSegmentatorFactsBase
     {
         [Fact]
         public void ThrowsWhenLicenseExpressionRootIsNull()
@@ -36,11 +36,11 @@ namespace NuGet.Licenses.Tests
             var segments = _target.GetLicenseExpressionSegments((LicenseOperator)expressionTreeRoot);
 
             Assert.NotNull(segments);
-            Assert.Equal(expectedSequence, segments, new ComplexLicenseExpressionSegmentEqualityComparer());
+            Assert.Equal(expectedSequence, segments, new CompositeLicenseExpressionSegmentEqualityComparer());
         }
     }
 
-    public class TheSplitFullExpressionMethod : LicenseExpressionSplitterFactsBase
+    public class TheSplitFullExpressionMethod : LicenseExpressionSegmentatorFactsBase
     {
         [Fact]
         public void ThrowsWhenLicenseExpressionIsNull()
@@ -86,18 +86,18 @@ namespace NuGet.Licenses.Tests
         {
             var result = _target.SplitFullExpression(licenseExpression, segments);
 
-            Assert.Equal(expectedSegments, result, new ComplexLicenseExpressionSegmentEqualityComparer());
+            Assert.Equal(expectedSegments, result, new CompositeLicenseExpressionSegmentEqualityComparer());
         }
     }
 
 
-    public class LicenseExpressionSplitterFactsBase
+    public class LicenseExpressionSegmentatorFactsBase
     {
-        protected LicenseExpressionSplitter _target;
+        protected LicenseExpressionSegmentator _target;
 
-        public LicenseExpressionSplitterFactsBase()
+        public LicenseExpressionSegmentatorFactsBase()
         {
-            _target = new LicenseExpressionSplitter();
+            _target = new LicenseExpressionSegmentator();
         }
 
         protected static CompositeLicenseExpressionSegment License(string licenseId)
@@ -117,7 +117,7 @@ namespace NuGet.Licenses.Tests
             => new CompositeLicenseExpressionSegment(value, CompositeLicenseExpressionSegmentType.Other);
     }
 
-    internal class ComplexLicenseExpressionSegmentEqualityComparer : IEqualityComparer<CompositeLicenseExpressionSegment>
+    internal class CompositeLicenseExpressionSegmentEqualityComparer : IEqualityComparer<CompositeLicenseExpressionSegment>
     {
         public bool Equals(CompositeLicenseExpressionSegment x, CompositeLicenseExpressionSegment y)
         {

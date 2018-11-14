@@ -27,7 +27,7 @@ namespace NuGet.Licenses.Services
     /// i.e. we cannot just restore the whole sequence from the tree alone since there is some extra
     /// parentheses that have no representation in the expression tree.
     /// </remarks>
-    public interface ILicenseExpressionSplitter
+    public interface ILicenseExpressionSegmentator
     {
         /// <summary>
         /// Given the root of the license expression tree restores the sequence of "segments" for a license

@@ -8,7 +8,7 @@ using NuGet.Packaging.Licenses;
 
 namespace NuGet.Licenses.Services
 {
-    public class LicenseExpressionSplitter : ILicenseExpressionSplitter
+    public class LicenseExpressionSegmentator : ILicenseExpressionSegmentator
     {
         /// <summary>
         /// Does an in-order traversal of a license expression tree restoring the sequence of tokens
