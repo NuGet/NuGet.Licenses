@@ -69,14 +69,31 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LicenseController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CompositeLicenseExpressionSegment.cs" />
+    <Compile Include="Models\CompositeLicenseExpressionSegmentType.cs" />
+    <Compile Include="Models\CompositeLicenseExpressionViewModel.cs" />
+    <Compile Include="Models\InvalidRequestModel.cs" />
+    <Compile Include="Models\SingleLicenseInformationModel.cs" />
+    <Compile Include="Models\UnknownLicenseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\IFileService.cs" />
+    <Compile Include="Services\ILicenseExpressionDecodingService.cs" />
+    <Compile Include="Services\ILicenseExpressionSegmentator.cs" />
+    <Compile Include="Services\ILicensesFolderPathService.cs" />
+    <Compile Include="Services\LicenseExpressionDecodingService.cs" />
+    <Compile Include="Services\LicenseExpressionSegmentator.cs" />
+    <Compile Include="Services\LicensesFolderPathService.cs" />
+    <Compile Include="Services\ILicenseFileService.cs" />
+    <Compile Include="Services\LicenseFileService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -92,7 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Mvc5">
@@ -128,6 +144,12 @@
     <PackageReference Include="Microsoft.Web.Infrastructure">
       <Version>1.0.0</Version>
     </PackageReference>
+    <PackageReference Include="Moq">
+      <Version>4.10.0</Version>
+    </PackageReference>
+    <PackageReference Include="NuGet.Packaging">
+      <Version>5.0.0-preview1.5665</Version>
+    </PackageReference>
     <PackageReference Include="Serilog">
       <Version>2.7.1</Version>
     </PackageReference>
@@ -152,6 +174,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationInsights.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\License\DisplayLicense.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\License\UnknownLicense.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\License\InvalidRequest.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\License\CompositeLicenseExpression.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

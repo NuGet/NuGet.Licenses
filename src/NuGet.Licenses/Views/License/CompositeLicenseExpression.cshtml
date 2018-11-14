@@ -1,0 +1,37 @@
+﻿@model NuGet.Licenses.Models.CompositeLicenseExpressionViewModel
+@using NuGet.Licenses.Models
+
+@functions {
+    static string GetSegmentSpecificClass(CompositeLicenseExpressionSegmentType segmentType)
+    {
+        return segmentType == CompositeLicenseExpressionSegmentType.Operator ? "operator" : "";
+    }
+
+    static bool IsLicenseOrException(CompositeLicenseExpressionSegment segment)
+    {
+        return segment.Type == CompositeLicenseExpressionSegmentType.LicenseIdentifier || segment.Type == CompositeLicenseExpressionSegmentType.ExceptionIdentifier;
+    }
+}
+
+@* The following two helpers must be on a single line each so no extra whitespace is introduced in the expression when rendered. *@
+
+@helper MakeLink(CompositeLicenseExpressionSegment segment) {<a href="@segment.Value" class="@GetSegmentSpecificClass(segment.Type)">@segment.Value</a>}
+@helper MakeSpan(CompositeLicenseExpressionSegment segment) {<span class="@GetSegmentSpecificClass(segment.Type)">@segment.Value</span>}
+
+<p>
+    Composite license expression:
+</p>
+
+<div id="license-expression">
+    @foreach (var segment in Model.Segments)
+    {
+        if (IsLicenseOrException(segment))
+        {
+            @MakeLink(segment);
+        }
+        else
+        {
+            @MakeSpan(segment);
+        }
+    }
+</div>

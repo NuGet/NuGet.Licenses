@@ -1,0 +1,27 @@
+﻿body {
+    font-family: sans-serif;
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+#main-content {
+    width: 60em;
+}
+
+#issue-id {
+    color: #AAA;
+}
+
+#license-expression {
+    font-family: Consolas, monospace;
+}
+
+#license-expression > .operator {
+    font-weight: bold;
+}
+
+#license-expression > a {
+    white-space: nowrap;
+}

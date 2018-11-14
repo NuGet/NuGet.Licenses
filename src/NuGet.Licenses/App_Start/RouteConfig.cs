@@ -11,10 +11,24 @@ namespace NuGet.Licenses
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
-                name: "Default",
-                url: "{*url}",
-                defaults: new { controller = "Home", action = "Index" }
-            );
+                name: "Root",
+                url: "",
+                defaults: new { controller = "License", action = "Index"});
+
+            routes.MapRoute(
+                name: "Errors",
+                url: "Error",
+                defaults: new { controller = "Error", action = "Index" });
+
+            routes.MapRoute(
+                name: "ErrorSpecific",
+                url: "Error/{status}",
+                defaults: new { controller = "Error", action = "Specific" });
+
+            routes.MapRoute(
+                name: "LicenseExpression",
+                url: "{licenseExpression}",
+                defaults: new { controller = "License", action = "DisplayLicense" });
         }
     }
 }

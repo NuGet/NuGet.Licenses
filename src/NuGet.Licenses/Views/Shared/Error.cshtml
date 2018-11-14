@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/Site.css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+</head>
+<body>
+    <hgroup>
+        <h1>Error.</h1>
+        <h2>An error occurred while processing your request.</h2>
+    </hgroup>
+
+    @if (ViewBag.IssueId != null)
+    {
+        <div id="issue-id">Issue ID: @ViewBag.IssueId</div>
+    }
+</body>
+</html>

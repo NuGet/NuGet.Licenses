@@ -1,0 +1,11 @@
+﻿@model NuGet.Licenses.Models.SingleLicenseInformationModel
+@{
+    ViewBag.Title = string.Format("'{0}' reference", Model.Title);
+}
+
+<h2>SPDX identifier</h2>
+<p>@Model.Title</p>
+
+<h2>@(Model.IsException ? "Exception" : "License") text</h2>
+<pre>@Model.Text </pre>
+
