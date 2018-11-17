@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LicenseExpressionDecodingServiceFacts.cs" />
     <Compile Include="LicenseExpressionSegmentatorFacts.cs" />
     <Compile Include="LicenseFileServiceFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

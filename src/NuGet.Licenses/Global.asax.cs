@@ -95,11 +95,6 @@ namespace NuGet.Licenses
                 .As<IFileService>()
                 .InstancePerLifetimeScope();
 
-            builder
-                .RegisterType<LicenseExpressionDecodingService>()
-                .As<ILicenseExpressionDecodingService>()
-                .InstancePerLifetimeScope();
-
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }

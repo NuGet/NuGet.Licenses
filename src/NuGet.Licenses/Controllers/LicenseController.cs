@@ -16,18 +16,15 @@ namespace NuGet.Licenses.Controllers
         private readonly ILicenseExpressionSegmentator _licenseExpressionSegmentator;
         private readonly ILogger<LicenseController> _logger;
         private readonly ILicenseFileService _licenseFileService;
-        private readonly ILicenseExpressionDecodingService _licenseExpressionDecodingService;
 
         public LicenseController(
             ILicenseExpressionSegmentator licenseExpressionSegmentator,
             ILogger<LicenseController> logger,
-            ILicenseFileService licenseFileService,
-            ILicenseExpressionDecodingService licenseExpressionDecodingService)
+            ILicenseFileService licenseFileService)
         {
             _licenseExpressionSegmentator = licenseExpressionSegmentator ?? throw new ArgumentNullException(nameof(licenseExpressionSegmentator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _licenseFileService = licenseFileService ?? throw new ArgumentNullException(nameof(licenseFileService));
-            _licenseExpressionDecodingService = licenseExpressionDecodingService ?? throw new ArgumentNullException(nameof(licenseExpressionDecodingService));
         }
 
         public ActionResult Index()
@@ -40,14 +37,12 @@ namespace NuGet.Licenses.Controllers
             var issueId = Guid.NewGuid();
             ViewBag.IssueId = Activity.Current?.Id;
 
-            var processedLicenseExpression = _licenseExpressionDecodingService.DecodeLicenseExpression(licenseExpression);
-
-            if (NuGetLicenseData.ExceptionList.TryGetValue(processedLicenseExpression, out var exceptionData))
+            if (NuGetLicenseData.ExceptionList.TryGetValue(licenseExpression, out var exceptionData))
             {
                 return DisplayException(exceptionData);
             }
 
-            if (processedLicenseExpression == null || processedLicenseExpression.Length > 500)
+            if (licenseExpression == null || licenseExpression.Length > 500)
             {
                 return InvalidRequest();
             }
@@ -56,7 +51,7 @@ namespace NuGet.Licenses.Controllers
 
             try
             {
-                licenseExpressionRootNode = NuGetLicenseExpression.Parse(processedLicenseExpression);
+                licenseExpressionRootNode = NuGetLicenseExpression.Parse(licenseExpression);
             }
             catch (NuGetLicenseExpressionParsingException e)
             {
@@ -95,7 +90,7 @@ namespace NuGet.Licenses.Controllers
                     return InvalidRequest();
                 }
 
-                return DisplayCompositeLicenseExpression(compositeLicenseExpressionRoot, processedLicenseExpression);
+                return DisplayCompositeLicenseExpression(compositeLicenseExpressionRoot, licenseExpression);
             }
 
             _logger.LogError("Unexpected license expression tree root type: {LicenseExpressionTreeRootType} for expression {LicenseExpression}",
