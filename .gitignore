@@ -271,5 +271,6 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Ignore test results
 *.trx
 Results.?.xml
