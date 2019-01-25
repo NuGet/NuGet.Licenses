@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using NuGet.Licenses.Services;
 using Serilog;
 
+// test change
 
 namespace NuGet.Licenses
 {
