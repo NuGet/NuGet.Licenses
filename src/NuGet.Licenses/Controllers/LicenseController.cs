@@ -108,7 +108,7 @@ namespace NuGet.Licenses.Controllers
 
         private ActionResult UnknownLicense(NuGetLicense license)
         {
-            return UnknownLicense(license);
+            return UnknownLicense(license.Identifier);
         }
 
         private ActionResult UnknownLicense(string licenseIdentifier)
