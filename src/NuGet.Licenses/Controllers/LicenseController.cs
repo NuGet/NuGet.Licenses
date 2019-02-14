@@ -151,6 +151,25 @@ namespace NuGet.Licenses.Controllers
             var meaningfulSegments = _licenseExpressionSegmentator.GetLicenseExpressionSegments(licenseExpressionRoot);
             var allSegments = _licenseExpressionSegmentator.SplitFullExpression(licenseExpression, meaningfulSegments);
 
+            foreach(var segment in allSegments)
+            {
+                if (segment.Type == CompositeLicenseExpressionSegmentType.LicenseIdentifier || segment.Type == CompositeLicenseExpressionSegmentType.ExceptionIdentifier)
+                {
+                    try
+                    {
+                        if (!_licenseFileService.DoesLicenseFileExist(segment.Value))
+                        {
+                            return UnknownLicense(segment.Value);
+                        }
+                    }
+                    catch (ArgumentException e)
+                    {
+                        _logger.LogError(0, e, "Got exception while attempting to get license contents due to the invalid license: {licenseIdentifier}", segment.Value);
+                        return InvalidRequest();
+                    }
+                }
+            }
+
             return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(allSegments));
         }
     }
