@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Extensions.Logging;
 using NuGet.Licenses.Models;
@@ -153,55 +154,52 @@ namespace NuGet.Licenses.Controllers
             var allSegments = _licenseExpressionSegmentator.SplitFullExpression(licenseExpression, meaningfulSegments);
 
             var stopwatch = Stopwatch.StartNew();
-            foreach (var segment in allSegments)
+            foreach (var segment in allSegments.Where(s => IsLicenseOrException(s)))
             {
-                if (segment.Type == CompositeLicenseExpressionSegmentType.LicenseIdentifier || segment.Type == CompositeLicenseExpressionSegmentType.ExceptionIdentifier)
+                var isValidSegment = false;
+                if (NuGetLicenseData.ExceptionList.TryGetValue(segment.Value, out var exceptionData))
                 {
-                    var isValidSegment = false;
-                    if (NuGetLicenseData.ExceptionList.TryGetValue(segment.Value, out var exceptionData))
+                    isValidSegment = true;
+                }
+                else
+                {
+                    try
                     {
-                        isValidSegment = true;
-                    }
-                    else
-                    {
-                        try
+                        var license = NuGetLicenseExpression.Parse(segment.Value) as NuGetLicense;
+                        if (license != null && license.IsStandardLicense)
                         {
-                            var license = NuGetLicenseExpression.Parse(segment.Value) as NuGetLicense;
-                            if (license != null && license.IsStandardLicense)
-                            {
-                                isValidSegment = true;
-                            }
-                        }
-                        catch (NuGetLicenseExpressionParsingException e)
-                        {
-                            stopwatch.Stop();
-                            _logger.LogError(0, e, "Got exception while attempting to parse license expression {LicenseExpression}", segment.Value);
-                            return InvalidRequest($"Unable to parse the license expression: {segment.Value}");
+                            isValidSegment = true;
                         }
                     }
+                    catch (NuGetLicenseExpressionParsingException e)
+                    {
+                        stopwatch.Stop();
+                        _logger.LogError(0, e, "Got exception while attempting to parse license expression {LicenseExpression}", segment.Value);
+                        return InvalidRequest($"Unable to parse the license expression: {segment.Value}");
+                    }
+                }
 
-                    if (!isValidSegment)
+                if (!isValidSegment)
+                {
+                    stopwatch.Stop();
+                    _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed);
+                    return UnknownLicense(segment.Value);
+                }
+
+                try
+                {
+                    if (!_licenseFileService.DoesLicenseFileExist(segment.Value))
                     {
                         stopwatch.Stop();
                         _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed);
                         return UnknownLicense(segment.Value);
                     }
-
-                    try
-                    {
-                        if (!_licenseFileService.DoesLicenseFileExist(segment.Value))
-                        {
-                            stopwatch.Stop();
-                            _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed);
-                            return UnknownLicense(segment.Value);
-                        }
-                    }
-                    catch (ArgumentException e)
-                    {
-                        stopwatch.Stop();
-                        _logger.LogError(0, e, "Got exception while attempting to get license contents due to the invalid license: {licenseIdentifier}", segment.Value);
-                        return InvalidRequest();
-                    }
+                }
+                catch (ArgumentException e)
+                {
+                    stopwatch.Stop();
+                    _logger.LogError(0, e, "Got exception while attempting to get license contents due to the invalid license: {licenseIdentifier}", segment.Value);
+                    return InvalidRequest();
                 }
             }
 
@@ -209,5 +207,7 @@ namespace NuGet.Licenses.Controllers
             _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed);
             return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(allSegments));
         }
+
+        private bool IsLicenseOrException(CompositeLicenseExpressionSegment segment) => segment.Type == CompositeLicenseExpressionSegmentType.LicenseIdentifier || segment.Type == CompositeLicenseExpressionSegmentType.ExceptionIdentifier;
     }
 }
