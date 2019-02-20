@@ -154,7 +154,7 @@ namespace NuGet.Licenses.Controllers
             var allSegments = _licenseExpressionSegmentator.SplitFullExpression(licenseExpression, meaningfulSegments);
 
             var stopwatch = Stopwatch.StartNew();
-            foreach (var segment in allSegments.Where(s => IsLicenseOrException(s)))
+            foreach (var segment in allSegments.Where(IsLicenseOrException))
             {
                 var isValidSegment = false;
                 if (NuGetLicenseData.ExceptionList.TryGetValue(segment.Value, out var exceptionData))
@@ -182,16 +182,18 @@ namespace NuGet.Licenses.Controllers
                 if (!isValidSegment)
                 {
                     stopwatch.Stop();
-                    _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed);
+                    _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed.TotalSeconds);
                     return UnknownLicense(segment.Value);
                 }
 
                 try
                 {
+                    // The Licenses folder in App_Data does not contain all the SPDX licenses' content.
+                    // If the customer tries to fetch the content of a SPDX expression which we don't support, it will return UnknownLicense here.
                     if (!_licenseFileService.DoesLicenseFileExist(segment.Value))
                     {
                         stopwatch.Stop();
-                        _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed);
+                        _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed.TotalSeconds);
                         return UnknownLicense(segment.Value);
                     }
                 }
@@ -204,7 +206,7 @@ namespace NuGet.Licenses.Controllers
             }
 
             stopwatch.Stop();
-            _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed);
+            _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed.TotalSeconds);
             return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(allSegments));
         }
 
