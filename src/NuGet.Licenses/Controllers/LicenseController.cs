@@ -182,7 +182,7 @@ namespace NuGet.Licenses.Controllers
                 if (!isValidSegment)
                 {
                     stopwatch.Stop();
-                    _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed.TotalSeconds);
+                    _logger.LogInformation("Validating composite licenseExpression uses: {ElapsedTime} s", stopwatch.Elapsed.TotalSeconds);
                     return UnknownLicense(segment.Value);
                 }
 
@@ -193,7 +193,7 @@ namespace NuGet.Licenses.Controllers
                     if (!_licenseFileService.DoesLicenseFileExist(segment.Value))
                     {
                         stopwatch.Stop();
-                        _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed.TotalSeconds);
+                        _logger.LogInformation("Validating composite licenseExpression uses: {ElapsedTime} s", stopwatch.Elapsed.TotalSeconds);
                         return UnknownLicense(segment.Value);
                     }
                 }
@@ -206,7 +206,7 @@ namespace NuGet.Licenses.Controllers
             }
 
             stopwatch.Stop();
-            _logger.LogInformation("Validating composite licenseExpression uses: {elapsedTime} s", stopwatch.Elapsed.TotalSeconds);
+            _logger.LogInformation("Validating composite licenseExpression uses: {ElapsedTime} s", stopwatch.Elapsed.TotalSeconds);
             return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(allSegments));
         }
 
