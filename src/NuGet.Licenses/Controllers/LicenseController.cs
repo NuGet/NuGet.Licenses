@@ -34,7 +34,6 @@ namespace NuGet.Licenses.Controllers
 
         public ActionResult DisplayLicense(string licenseExpression)
         {
-            var issueId = Guid.NewGuid();
             ViewBag.IssueId = Activity.Current?.Id;
 
             if (NuGetLicenseData.ExceptionList.TryGetValue(licenseExpression, out var exceptionData))
@@ -103,6 +102,7 @@ namespace NuGet.Licenses.Controllers
         {
             var model = new InvalidRequestModel(errorText);
             Response.StatusCode = 400;
+            Response.TrySkipIisCustomErrors = true;
             return View("InvalidRequest", model);
         }
 
@@ -114,6 +114,7 @@ namespace NuGet.Licenses.Controllers
         private ActionResult UnknownLicense(string licenseIdentifier)
         {
             Response.StatusCode = 404;
+            Response.TrySkipIisCustomErrors = true;
             return View("UnknownLicense", new UnknownLicenseModel(licenseIdentifier));
         }
 
