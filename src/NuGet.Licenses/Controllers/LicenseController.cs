@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Extensions.Logging;
 using NuGet.Licenses.Models;
@@ -150,9 +151,66 @@ namespace NuGet.Licenses.Controllers
         private ActionResult DisplayCompositeLicenseExpression(LicenseOperator licenseExpressionRoot, string licenseExpression)
         {
             var meaningfulSegments = _licenseExpressionSegmentator.GetLicenseExpressionSegments(licenseExpressionRoot);
+
             var allSegments = _licenseExpressionSegmentator.SplitFullExpression(licenseExpression, meaningfulSegments);
 
+            var stopwatch = Stopwatch.StartNew();
+            foreach (var segment in allSegments.Where(IsLicenseOrException))
+            {
+                var isValidSegment = false;
+                if (NuGetLicenseData.ExceptionList.TryGetValue(segment.Value, out var exceptionData))
+                {
+                    isValidSegment = true;
+                }
+                else
+                {
+                    try
+                    {
+                        var license = NuGetLicenseExpression.Parse(segment.Value) as NuGetLicense;
+                        if (license != null && license.IsStandardLicense)
+                        {
+                            isValidSegment = true;
+                        }
+                    }
+                    catch (NuGetLicenseExpressionParsingException e)
+                    {
+                        stopwatch.Stop();
+                        _logger.LogError(0, e, "Got exception while attempting to parse license expression {LicenseExpression}", segment.Value);
+                        return InvalidRequest($"Unable to parse the license expression: {segment.Value}");
+                    }
+                }
+
+                if (!isValidSegment)
+                {
+                    stopwatch.Stop();
+                    _logger.LogInformation("Validating composite licenseExpression uses: {ElapsedTime} s", stopwatch.Elapsed.TotalSeconds);
+                    return UnknownLicense(segment.Value);
+                }
+
+                try
+                {
+                    // The Licenses folder in App_Data does not contain all the SPDX licenses' content.
+                    // If the customer tries to fetch the content of a SPDX expression which we don't support, it will return UnknownLicense here.
+                    if (!_licenseFileService.DoesLicenseFileExist(segment.Value))
+                    {
+                        stopwatch.Stop();
+                        _logger.LogInformation("Validating composite licenseExpression uses: {ElapsedTime} s", stopwatch.Elapsed.TotalSeconds);
+                        return UnknownLicense(segment.Value);
+                    }
+                }
+                catch (ArgumentException e)
+                {
+                    stopwatch.Stop();
+                    _logger.LogError(0, e, "Got exception while attempting to get license contents due to the invalid license: {licenseIdentifier}", segment.Value);
+                    return InvalidRequest();
+                }
+            }
+
+            stopwatch.Stop();
+            _logger.LogInformation("Validating composite licenseExpression uses: {ElapsedTime} s", stopwatch.Elapsed.TotalSeconds);
             return View("CompositeLicenseExpression", new CompositeLicenseExpressionViewModel(allSegments));
         }
+
+        private bool IsLicenseOrException(CompositeLicenseExpressionSegment segment) => segment.Type == CompositeLicenseExpressionSegmentType.LicenseIdentifier || segment.Type == CompositeLicenseExpressionSegmentType.ExceptionIdentifier;
     }
 }
