@@ -21,11 +21,6 @@ namespace NuGet.Licenses
                 defaults: new { controller = "Error", action = "Index" });
 
             routes.MapRoute(
-                name: "ErrorSpecific",
-                url: "Error/{status}",
-                defaults: new { controller = "Error", action = "Specific" });
-
-            routes.MapRoute(
                 name: "LicenseExpression",
                 url: "{licenseExpression}",
                 defaults: new { controller = "License", action = "DisplayLicense" });
