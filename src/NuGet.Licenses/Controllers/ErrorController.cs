@@ -7,6 +7,7 @@ namespace NuGet.Licenses.Controllers
 {
     public class ErrorController : Controller
     {
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Head)]
         public ActionResult Index()
         {
             return View("Error");
