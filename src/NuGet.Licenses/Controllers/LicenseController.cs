@@ -28,11 +28,13 @@ namespace NuGet.Licenses.Controllers
             _licenseFileService = licenseFileService ?? throw new ArgumentNullException(nameof(licenseFileService));
         }
 
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Head)]
         public ActionResult Index()
         {
             return Redirect("https://aka.ms/licenses.nuget.org");
         }
 
+        [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Head)]
         public ActionResult DisplayLicense(string licenseExpression)
         {
             ViewBag.IssueId = Activity.Current?.Id;
