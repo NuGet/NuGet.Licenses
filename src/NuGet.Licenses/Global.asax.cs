@@ -10,6 +10,7 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights.TraceListener;
 using Microsoft.Extensions.Logging;
 using NuGet.Licenses.Services;
 using Serilog;
@@ -50,6 +51,10 @@ namespace NuGet.Licenses
         private static void SetupInstrumentation()
         {
             TelemetryConfiguration.Active.InstrumentationKey = InstrumentationKey;
+            // TODO: remove. Trying to make sure the assembly containing the type is loaded
+            using (var aitl = new ApplicationInsightsTraceListener(InstrumentationKey))
+            {
+            }
         }
 
         private static void SetupSsl()
