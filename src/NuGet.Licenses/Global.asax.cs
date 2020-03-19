@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using NuGet.Licenses.Services;
 using Serilog;
 
-
 namespace NuGet.Licenses
 {
     public class MvcApplication : HttpApplication
@@ -41,7 +40,8 @@ namespace NuGet.Licenses
             if (!string.IsNullOrWhiteSpace(InstrumentationKey))
             { 
                 loggerConfiguration = loggerConfiguration
-                    .WriteTo.ApplicationInsightsTraces(InstrumentationKey);
+                    .WriteTo
+                    .ApplicationInsights(TelemetryConfiguration.Active, TelemetryConverter.Traces);
             }
 
             Log.Logger = loggerConfiguration.CreateLogger();
