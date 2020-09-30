@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28218.60
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Licenses", "src\NuGet.Licenses\NuGet.Licenses.csproj", "{32B73452-3793-499B-A0AA-875E76F02E2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Licenses.Tests", "test\NuGet.Licenses.Tests\NuGet.Licenses.Tests.csproj", "{7DC3C841-9276-4E3E-AB74-3FDD518C512A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C69ACA46-B780-4AFA-A488-B805357B6F62}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
