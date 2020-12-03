@@ -23,13 +23,11 @@ bld/
 [Ll]og/
 
 # Files created and used by our build scripts
-nuget.exe
 build/ 
 tools/
-.nuget/CredentialProviderBundle.zip
-.nuget/CredentialProvider.VSS.exe
-.nuget/EULA_Microsoft Visual Studio Team Services Credential Provider.docx
-.nuget/ThirdPartyNotices.txt
+.nuget/credprovider
+.nuget/.marker.v*
+nuget.exe
 AssemblyInfo.g.cs
 tests/Scripts/Config-*.json
 

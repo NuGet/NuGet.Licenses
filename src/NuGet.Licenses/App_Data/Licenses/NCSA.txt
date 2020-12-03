@@ -1,6 +1,4 @@
-﻿ University of Illinois/NCSA Open Source License
-
-Copyright (c) _____ . All rights reserved.
+﻿ University of Illinois/NCSA Open Source License _____
 
 Developed by: _____
 
