@@ -1,6 +1,4 @@
-﻿ Apache License 1.1
-
-Copyright (c) _____ . All rights reserved.
+﻿ Apache License 1.1 _____
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
@@ -14,9 +12,9 @@ Redistribution and use in source and binary forms, with or without modification,
 
    Alternately, this acknowledgment may appear in the software itself, if and wherever such third-party acknowledgments normally appear.
 
-   4. The _____ _____ must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact _____ .
+   4. The _____ _____ must not be used to endorse or promote products derived from this software without prior written permission. For written permission, please contact apache@apache.org .
 
-   5. Products derived from this software may not be called _____ nor may _____ appear in their name, without prior written permission of _____ .
+   5. _____
 
 THIS SOFTWARE IS PROVIDED ''AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL _____ BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 

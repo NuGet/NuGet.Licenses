@@ -1,6 +1,4 @@
-﻿ Reciprocal Public License, version 1.1
-
-Copyright (C) 2001-2002 Technical Pursuit Inc., All Rights Reserved. PREAMBLE
+﻿ Reciprocal Public License, version 1.1 _____ PREAMBLE
 
 This Preamble is intended to describe, in plain English, the nature, intent, and scope of this License. However, this Preamble is not a part of this License. The legal effect of this License is dependent only upon the terms of the License and not this Preamble.
 
