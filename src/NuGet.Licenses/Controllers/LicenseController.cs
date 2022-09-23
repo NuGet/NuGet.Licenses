@@ -140,6 +140,12 @@ namespace NuGet.Licenses.Controllers
                     return UnknownLicense(identifier);
                 }
 
+                if (identifier == "AAL")
+                {
+                    Response.StatusCode = 500;
+                    return View("HitTestCachingEndpoint", new UnknownLicenseModel(identifier));
+                }
+
                 string licenseContent = _licenseFileService.GetLicenseFileContent(identifier);
                 return View("DisplayLicense", new SingleLicenseInformationModel(identifier, licenseContent, isException));
             }
