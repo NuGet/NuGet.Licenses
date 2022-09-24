@@ -142,9 +142,11 @@ namespace NuGet.Licenses.Controllers
 
                 if (identifier == "AAL")
                 {
-                    Response.CacheControl = "max-age=0";
-                    Response.StatusCode = 500;
-                    return View("HitTestCachingEndpoint", new UnknownLicenseModel(identifier));
+                    Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
+                    Response.Cache.SetMaxAge(new TimeSpan(0, 0, 0));
+                    Response.Cache.SetETag("Test-Normal-Operation");
+                    // Response.StatusCode = 500;
+                    // return View("HitTestCachingEndpoint", new UnknownLicenseModel(identifier));
                 }
 
                 string licenseContent = _licenseFileService.GetLicenseFileContent(identifier);
