@@ -144,7 +144,7 @@ namespace NuGet.Licenses.Controllers
                 {
                     Response.Cache.SetCacheability(System.Web.HttpCacheability.Public);
                     Response.Cache.SetMaxAge(new TimeSpan(0, 0, 0));
-                    Response.Cache.SetETag("Test-Recovery");
+                    Response.Cache.SetETag("Test-StaleWhileRevalidate");
                 }
 
                 string licenseContent = _licenseFileService.GetLicenseFileContent(identifier);
