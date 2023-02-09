@@ -118,7 +118,7 @@ namespace NuGet.Licenses.Controllers
         {
             Response.StatusCode = 404;
             Response.TrySkipIisCustomErrors = true;
-            return View("UnknownLicense", new UnknownLicenseModel(licenseIdentifier));
+            return View("UnknownLicense", new UnknownLicenseModel(licenseIdentifier, _licenseFileService.GetLastUpdated()));
         }
 
         private ActionResult DisplayLicense(NuGetLicense license)
@@ -140,8 +140,9 @@ namespace NuGet.Licenses.Controllers
                     return UnknownLicense(identifier);
                 }
 
-                string licenseContent = _licenseFileService.GetLicenseFileContent(identifier);
-                return View("DisplayLicense", new SingleLicenseInformationModel(identifier, licenseContent, isException));
+                var licenseInfo = _licenseFileService.GetLicenseInfo(identifier);
+                var lastUpdated = _licenseFileService.GetLastUpdated();
+                return View("DisplayLicense", new SingleLicenseInformationModel(identifier, isException, licenseInfo, lastUpdated));
             }
             catch (ArgumentException e)
             {

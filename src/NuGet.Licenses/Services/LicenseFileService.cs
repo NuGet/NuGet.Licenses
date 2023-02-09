@@ -3,11 +3,14 @@
 
 using System;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace NuGet.Licenses
 {
     public class LicenseFileService : ILicenseFileService
     {
+        private static DateTimeOffset? _lastUpdated;
+
         private readonly ILicensesFolderPathService _licensesFolderPathService;
         private readonly IFileService _fileService;
 
@@ -22,14 +25,28 @@ namespace NuGet.Licenses
             return _fileService.DoesFileExist(GetLicenseFilePath(licenseIdentifier));
         }
 
-        public string GetLicenseFileContent(string licenseIdentifier)
+        public LicenseInfo GetLicenseInfo(string licenseIdentifier)
         {
-            return _fileService.ReadFileContent(GetLicenseFilePath(licenseIdentifier));
+            var fileContent = _fileService.ReadFileContent(GetLicenseFilePath(licenseIdentifier));
+            return JsonConvert.DeserializeObject<LicenseInfo>(fileContent);
+        }
+
+        public DateTimeOffset GetLastUpdated()
+        {
+            if (_lastUpdated.HasValue)
+            {
+                return _lastUpdated.Value;
+            }
+
+            var lastUpdatedPath = _fileService.GetFileFullPath(Path.Combine(_licensesFolderPathService.GetLicensesFolderPath(), "last-updated.txt"));
+            var lastUpdatedText = _fileService.ReadFileContent(lastUpdatedPath).Trim();
+            _lastUpdated = DateTimeOffset.Parse(lastUpdatedText);
+            return _lastUpdated.Value;
         }
 
         private string GetLicenseFilePath(string licenseIdentifier)
         {
-            string licenseFilePath = _fileService.GetFileFullPath(Path.Combine(_licensesFolderPathService.GetLicensesFolderPath(), String.Concat(licenseIdentifier, ".txt")));
+            string licenseFilePath = _fileService.GetFileFullPath(Path.Combine(_licensesFolderPathService.GetLicensesFolderPath(), String.Concat(licenseIdentifier, ".json")));
             if (!IsLicenseFilePathAllowed(licenseFilePath))
             {
                 throw new ArgumentException(String.Format("{0} is not a valid license", licenseIdentifier), nameof(licenseIdentifier));

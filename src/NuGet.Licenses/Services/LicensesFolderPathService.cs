@@ -8,7 +8,8 @@ namespace NuGet.Licenses
     public class LicensesFolderPathService : ILicensesFolderPathService
     {
         private const string LicensesFolderPath = "~\\App_Data\\Licenses\\";
-        public string GetLicensesFolderPath(){
+        public string GetLicensesFolderPath()
+        {
             return HttpContext.Current.Server.MapPath(LicensesFolderPath);
         }
     }

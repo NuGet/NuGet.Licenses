@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "This exception was created specifically to be used with Apache-2.0",
+    "html":  "\n\t  \u003cdiv class=\"optional-license-text\"\u003e \n\t\t\u003cp\u003e\n\t\t    \u003cvar class=\"replaceable-license-text\"\u003e \u003c/var\u003e\n\t\t    LLVM Exceptions to the Apache 2.0 License\n\t\t    \u003cvar class=\"replaceable-license-text\"\u003e \u003c/var\u003e\n\t\t\u003c/p\u003e\n\n\t  \u003c/div\u003e\n      \u003cp\u003e As an exception, if, as a result of your compiling your source\n      code, portions of this Software are embedded into an Object form of\n      such source code, you may redistribute such embedded portions in such\n      Object form without complying with the conditions of Sections 4(a),\n      4(b) and 4(d) of the License.\u003c/p\u003e\n\n      \u003cp\u003eIn addition, if you combine or link compiled forms of this Software\n      with software that is licensed under the GPLv2 (\u0026quot;Combined Software\u0026quot;)\n      and if a court of competent jurisdiction determines that the patent\n      provision (Section 3), the indemnity provision (Section 9) or other\n      Section of the License conflicts with the conditions of the GPLv2,\n      you may retroactively and prospectively choose to deem waived or\n      otherwise exclude such Section(s) of the License, but only in their\n      entirety and only with respect to the Combined Software.\u003c/p\u003e\n\n\t  ",
+    "name":  "LLVM Exception",
+    "headerHtml":  null,
+    "isException":  true
+}

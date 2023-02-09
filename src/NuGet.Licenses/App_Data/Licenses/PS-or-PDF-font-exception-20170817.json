@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "Author-suggested standard header language recommends use with AGPL-3.0-only",
+    "html":  "\n      \u003cdiv class=\"optional-license-text\"\u003e \n        \u003cp\u003eThe font and related files in this directory are distributed under the\n        GNU AFFERO GENERAL PUBLIC LICENSE Version 3 (see the file COPYING), with\n        the following exemption:\u003c/p\u003e\n\n      \u003c/div\u003e\n      \u003cp\u003eAs a special exception, permission is granted to include these font\n        programs in a Postscript or PDF file that consists of a document that\n        contains text to be displayed or printed using this font, regardless\n        of the conditions or license applying to the document itself.\u003c/p\u003e\n\n    ",
+    "name":  "PS/PDF font exception (2017-08-17)",
+    "headerHtml":  null,
+    "isException":  true
+}

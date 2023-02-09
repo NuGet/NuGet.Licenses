@@ -25,3 +25,11 @@ pre {
 #license-expression > a {
     white-space: nowrap;
 }
+
+.optional-license-text {
+    color: #0000cc;
+}
+
+.replaceable-license-text {
+    color: #CC0000;
+}
