@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "Typically used with GPL 2.0",
+    "html":  "\n      \u003cdiv class=\"optional-license-text\"\u003e \n         \u003cp\u003eSpecial exception for linking OpenVPN with OpenSSL:\u003c/p\u003e\n\n      \u003c/div\u003e\n      \u003cp\u003eIn addition, as a special exception, \u003cvar class=\"replaceable-license-text\"\u003e \n         OpenVPN Technologies, Inc.\u003c/var\u003e\n         \u003cvar class=\"replaceable-license-text\"\u003e gives\u003c/var\u003e permission to link \n         \u003cvar class=\"replaceable-license-text\"\u003e \n         the code of this program\u003c/var\u003e with the\n         OpenSSL Library (or with modified versions of OpenSSL that use\n         the same license as OpenSSL), and distribute linked\n         combinations including the two. You must obey the GNU \u003cvar class=\"optional-license-text\"\u003e Lesser\u003c/var\u003e General\n         Public License in all respects for all of the code used other\n         than OpenSSL. If you modify this file, you may extend this\n         exception to your version of the file, but you are not\n         obligated to do so. If you do not wish to do so, delete this\n         exception statement from your version.\u003c/p\u003e\n\n         \u003cvar class=\"optional-license-text\"\u003e \n         If you delete this exception statement from all\n         source files in the program, then also delete it here.\n      \u003c/var\u003e\n    ",
+    "name":  "OpenVPN OpenSSL Exception",
+    "headerHtml":  null,
+    "isException":  true
+}

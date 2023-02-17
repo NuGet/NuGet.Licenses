@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "Used by the LZMA compression module for NSIS to apply an exception to CPL-1.0",
+    "html":  "\n\t  \u003cvar class=\"optional-license-text\"\u003e I.6 Special exception for LZMA compression module\u003c/var\u003e\n      \u003cdiv class=\"optional-license-text\"\u003e \n         \u003cdiv class=\"optional-license-text\"\u003e \u003cp\u003eLZMA exception\u003c/p\u003e\n\u003c/div\u003e\n      \u003c/div\u003e\n      \u003cp\u003eIgor Pavlov and Amir Szekely, the authors of the LZMA compression\n       module for NSIS, expressly permit you to statically or\n       dynamically link your code (or bind by name) to the files from\n       the LZMA compression module for NSIS without subjecting your\n       linked code to the terms of the Common Public license version\n       1.0. Any modifications or additions to files from the LZMA\n       compression module for NSIS, however, are subject to the terms\n       of the Common Public License version 1.0.\u003c/p\u003e\n\n    ",
+    "name":  "LZMA exception",
+    "headerHtml":  null,
+    "isException":  true
+}

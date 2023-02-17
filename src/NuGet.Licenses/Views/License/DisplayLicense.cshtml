@@ -1,11 +1,33 @@
 ﻿@model NuGet.Licenses.Models.SingleLicenseInformationModel
 @{
-    ViewBag.Title = string.Format("'{0}' reference", Model.Title);
+    ViewBag.Title = string.Format("'{0}' reference", Model.Identifier);
 }
 
+<h1>@Model.Info.Name</h1>
+
 <h2>SPDX identifier</h2>
-<p>@Model.Title</p>
+<div id="license-expression">@Model.Identifier</div>
 
 <h2>@(Model.IsException ? "Exception" : "License") text</h2>
-<pre>@Model.Text </pre>
+@Html.Raw(Model.Info.Html)
 
+@if (!string.IsNullOrEmpty(Model.Info.HeaderHtml)) {
+    <h2>Standard License Header</h2>
+    @Html.Raw(Model.Info.HeaderHtml)
+}
+
+
+@if (!string.IsNullOrEmpty(Model.Info.Comments)) {
+    <h2>Notes</h2>
+    <p>@Model.Info.Comments</p>
+}
+
+<h2>SPDX web page</h2>
+<ul>
+    <li><a href="https://spdx.org/licenses/@(Model.Identifier).html">https://spdx.org/licenses/@(Model.Identifier).html</a></li>
+</ul>
+
+<h2>Notice</h2>
+<p>This license content is provided by the <a href="https://spdx.dev/">SPDX project</a>. For more information about <b>licenses.nuget.org</b>, see <a href="https://aka.ms/licenses.nuget.org">our documentation</a>.
+
+<p><i>Data pulled from <a href="https://github.com/spdx/license-list-data">spdx/license-list-data</a> on @Model.LastUpdated.ToString("MMMM d, yyyy").</i></p>

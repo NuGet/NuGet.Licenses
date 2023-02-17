@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "Typically used with GPL-2.0-or-later. Sometimes also referred to as \"linking exception.\"",
+    "html":  "\n      \u003cp\u003eIn addition to the permissions in the GNU\n        \u003cvar class=\"optional-license-text\"\u003e Library\u003c/var\u003e General Public License, the \u003cvar class=\"replaceable-license-text\"\u003e authors\u003c/var\u003e\n        \u003cvar class=\"replaceable-license-text\"\u003e give\u003c/var\u003e you unlimited permission to link the compiled version of this\n        \u003cvar class=\"replaceable-license-text\"\u003e file\u003c/var\u003e\u003cvar class=\"optional-license-text\"\u003e  into combinations\u003c/var\u003e with other programs,\n        and to distribute those \u003cvar class=\"replaceable-license-text\"\u003e programs\u003c/var\u003e without any restriction\n        coming from the use of this file.  (The \u003cvar class=\"replaceable-license-text\"\u003e General\u003c/var\u003e Public License\n        restrictions do apply in other respects; for example, they cover modification of the file, and distribution\n        when not linked into\n        \u003cvar class=\"replaceable-license-text\"\u003e another program\u003c/var\u003e.)\u003c/p\u003e\n\n    ",
+    "name":  "GCC Runtime Library exception 2.0",
+    "headerHtml":  null,
+    "isException":  true
+}

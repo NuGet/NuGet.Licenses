@@ -2,8 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Moq;
+using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Xml.Linq;
 using Xunit;
 
 namespace NuGet.Licenses.Tests
@@ -11,9 +13,16 @@ namespace NuGet.Licenses.Tests
     public class LicenseFileServiceFacts
     {
         private static string TestLicenseIdentifier = "MIT";
-        private static string TestLicenseContent = "MIT license content";
+        private static LicenseInfo TestLicenseInfo = new LicenseInfo
+        {
+            IsException = false,
+            Name = "Test License",
+            Html = "<b>This license is so legit.</b>",
+            HeaderHtml = (string)null,
+            Comments = "Well, maybe it isn't really.",
+        };
         private static string TestLicensesFolderPath = "TestFolder\\TestPath\\";
-        private static string TestLicenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(TestLicenseIdentifier, ".txt"));
+        private static string TestLicenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(TestLicenseIdentifier, ".json"));
 
         private Mock<ILicensesFolderPathService> _licensesFolderPathService;
         private Mock<IFileService> _fileService;
@@ -34,7 +43,7 @@ namespace NuGet.Licenses.Tests
                 .Returns(true);
             _fileService
                 .Setup(x => x.ReadFileContent(It.IsAny<string>()))
-                .Returns(TestLicenseContent);
+                .Returns(() => JsonConvert.SerializeObject(TestLicenseInfo));
         }
 
         private ILicenseFileService CreateService(
@@ -81,7 +90,7 @@ namespace NuGet.Licenses.Tests
         {
             // Arrange
             var licenseIdentifier = "Test-license";
-            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".txt"));
+            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".json"));
             var mockFileService = new Mock<IFileService>();
             mockFileService
                 .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
@@ -113,7 +122,7 @@ namespace NuGet.Licenses.Tests
         {
             // Arrange
             var licenseIdentifier = "..\\";
-            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".txt"));
+            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".json"));
             var mockFileService = new Mock<IFileService>();
             mockFileService
                 .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
@@ -144,10 +153,14 @@ namespace NuGet.Licenses.Tests
             var newService = CreateService();
 
             // Act
-            var fileContent = newService.GetLicenseFileContent(TestLicenseIdentifier);
+            var info = newService.GetLicenseInfo(TestLicenseIdentifier);
             
             // Assert
-            Assert.Equal(TestLicenseContent, fileContent);
+            Assert.Equal(TestLicenseInfo.Name, info.Name);
+            Assert.Equal(TestLicenseInfo.Comments, info.Comments);
+            Assert.Equal(TestLicenseInfo.Html, info.Html);
+            Assert.Equal(TestLicenseInfo.HeaderHtml, info.HeaderHtml);
+            Assert.Equal(TestLicenseInfo.IsException, info.IsException);
             _licensesFolderPathService.Verify(
                 x => x.GetLicensesFolderPath(),
                 Times.Exactly(2));
@@ -164,7 +177,7 @@ namespace NuGet.Licenses.Tests
         {
             // Arrange
             var licenseIdentifier = "..\\";
-            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".txt"));
+            var licenseFullPath = Path.Combine(TestLicensesFolderPath, String.Concat(licenseIdentifier, ".json"));
             var mockFileService = new Mock<IFileService>();
             mockFileService
                 .Setup(x => x.GetFileFullPath(It.IsAny<string>()))
@@ -174,7 +187,7 @@ namespace NuGet.Licenses.Tests
 
             // Act and Assert
             var exception = Assert.Throws<ArgumentException>(
-                () => newService.GetLicenseFileContent(licenseIdentifier));
+                () => newService.GetLicenseInfo(licenseIdentifier));
 
             Assert.Equal(nameof(licenseIdentifier), exception.ParamName);
             _licensesFolderPathService.Verify(

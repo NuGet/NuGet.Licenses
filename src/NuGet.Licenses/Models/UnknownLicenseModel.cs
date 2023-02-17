@@ -7,11 +7,13 @@ namespace NuGet.Licenses.Models
 {
     public class UnknownLicenseModel
     {
-        public UnknownLicenseModel(string licenseName)
+        public UnknownLicenseModel(string licenseName, DateTimeOffset lastUpdated)
         {
             LicenseName = licenseName ?? throw new ArgumentNullException(nameof(licenseName));
+            LastUpdated = lastUpdated;
         }
 
         public string LicenseName { get; }
+        public DateTimeOffset LastUpdated { get; }
     }
 }
