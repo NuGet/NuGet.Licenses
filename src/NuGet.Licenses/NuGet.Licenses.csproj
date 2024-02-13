@@ -136,7 +136,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="NuGet.Packaging">
-      <Version>6.4.2</Version>
+      <Version>6.4.3</Version>
     </PackageReference>
     <PackageReference Include="Serilog">
       <Version>2.8.0</Version>
