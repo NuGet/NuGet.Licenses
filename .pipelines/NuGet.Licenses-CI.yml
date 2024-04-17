@@ -1,0 +1,81 @@
+trigger:
+  branches:
+    include:
+    - '*'
+  batch: True
+
+name: NuGet.Licenses CI $(BuildId)
+
+variables:
+- name: AssembliesFolder
+  value: assemblies
+- name: BuildConfiguration
+  value: Release
+- name: Codeql.Enabled
+  value: true
+- name: NugetSecurityAnalysisWarningLevel
+  value: none
+- name: PackageVersion
+  value: $(SimplePackageVersion)$(PrereleaseVersion)
+- name: PrereleaseVersion
+  value: -$(NuGetLicensesBranch)-$(Build.BuildId)
+- name: SimplePackageVersion
+  value: 1.0.0
+- name: nugetMultiFeedWarnLevel
+  value: none
+- name: NuGetLicensesDirectory
+  value: nl
+- name: NuGetLicensesPath
+  value: $(Agent.BuildDirectory)\$(NuGetLicensesDirectory)
+- name: NuGetLicensesBranch
+  value: $(Build.SourceBranchName)
+
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/main
+  - repository: 1ESPipelineTemplates
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
+  parameters:
+    pool:
+      name: NuGet-1ES-Hosted-Pool
+      image: NuGet-1ESPT-Win2022
+      os: windows
+    customBuildTags:
+    - ES365AIMigrationTooling
+    stages:
+    - stage: stage
+      jobs:
+      - job: Phase_1
+        displayName: Agent job 1
+        cancelTimeoutInMinutes: 1
+        steps:
+        - checkout: self
+          fetchDepth: 1
+          clean: true
+          fetchTags: false
+          path: $(NuGetLicensesDirectory)
+        - task: PowerShell@1
+          displayName: Build
+          inputs:
+            scriptName: $(NuGetLicensesPath)\build.ps1
+            arguments: -Configuration $(BuildConfiguration) -BuildNumber $(Build.BuildId) -SimpleVersion $(SimplePackageVersion) -SemanticVersion $(PackageVersion) -Branch $(NuGetLicensesBranch) -CommitSHA $(Build.SourceVersion)
+            workingFolder: $(NuGetLicensesPath)
+        - task: PowerShell@1
+          displayName: Run unit tests
+          inputs:
+            scriptName: $(NuGetLicensesPath)\test.ps1
+            arguments: -Configuration $(BuildConfiguration) -BuildNumber $(Build.BuildId)
+            workingFolder: $(NuGetLicensesPath)
+        - task: PublishTestResults@1
+          displayName: Publish Test Results Results.*.xml
+          condition: succeededOrFailed()
+          inputs:
+            testRunner: XUnit
+            testResultsFiles: $(NuGetLicensesPath)\Results.*.xml
