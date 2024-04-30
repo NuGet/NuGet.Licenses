@@ -1,0 +1,19 @@
+name: NuGet.Licenses release trigger $(Build.BuildId) - $(Date:yyyyMMdd)
+
+trigger:
+  branches:
+    include:
+    - main
+    - dev
+
+pr: none
+
+variables:
+- name: NugetMultifeedWarnLevel
+  value: none
+  
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- powershell: Write-Host "Dummy task"
