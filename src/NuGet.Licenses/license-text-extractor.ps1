@@ -15,7 +15,7 @@ Write-Host "Found $($licenseIds.Count) licenses."
 # The SPDX version that client uses is here: https://github.com/NuGet/NuGet.Client/blob/release-6.4.x/src/NuGet.Core/NuGet.Packaging/Licenses/NuGetLicenseData.cs
 # Make note of the release label in the NuGet.Client URL above! This should match the version of NuGet.Packaging that NuGet.Licenses.csproj depends on.
 Write-Host "Fetching exception IDs..."
-$exceptionResponseData = Invoke-RestMethod "https://raw.githubusercontent.com/spdx/license-list-data/45d10da0366f5fa931f60f3931fd23d5fb708de5/json/exceptions.json"
+$exceptionResponseData = Invoke-RestMethod "https://raw.githubusercontent.com/spdx/license-list-data/main/json/exceptions.json"
 $exceptionIds = $exceptionResponseData.exceptions | Where-Object { -not $_.isDeprecatedLicenseId } | Select-Object -ExpandProperty licenseExceptionId | Sort-Object
 Write-Host "Found $($exceptionIds.Count) exceptions."
 

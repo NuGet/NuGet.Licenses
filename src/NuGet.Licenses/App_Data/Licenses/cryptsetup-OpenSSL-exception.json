@@ -1,0 +1,7 @@
+﻿{
+    "comments":  null,
+    "html":  "\n         \u003cp\u003e\n            \u003cvar class=\"replaceable-license-text\"\u003e In addition, as\u003c/var\u003e a special exception, the copyright\n            holders give permission to link the code of portions\n            of this program with the OpenSSL library under certain\n            conditions as described in each individual source file,\n            and distribute linked combinations including the\n            \u003cvar class=\"replaceable-license-text\"\u003e two\u003c/var\u003e.\n         \u003c/p\u003e\n\n         \u003cp\u003e\n            You must \u003cvar class=\"replaceable-license-text\"\u003e obey\u003c/var\u003e\n            the GNU General Public License in all respects\n            for all of the code used other than\n            \u003cvar class=\"replaceable-license-text\"\u003e OpenSSL\u003c/var\u003e.\n            If you modify\n            file(s) with this exception, you may extend this exception to\n            your version of the file(s), but you are not obligated to do\n            so. If you do not wish to do so, delete this exception statement\n            from your version. If you delete this exception statement from\n            all source files in the program, then also delete it\n            \u003cvar class=\"replaceable-license-text\"\u003e here\u003c/var\u003e.\n         \u003c/p\u003e\n\n      ",
+    "name":  "cryptsetup OpenSSL exception",
+    "headerHtml":  null,
+    "isException":  true
+}

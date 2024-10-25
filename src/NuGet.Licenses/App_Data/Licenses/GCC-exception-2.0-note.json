@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "This is the same as GCC-exception-2.0 but adds a second paragraph.",
+    "html":  "\n         \u003cp\u003e\n            In addition to the permissions in the GNU Lesser General Public\n            License, the Free Software Foundation gives you unlimited\n            permission to link the compiled version of this file with\n            other programs, and to distribute those programs without\n            any restriction coming from the use of this file. (The GNU\n            Lesser General Public License restrictions do apply in other\n            respects; for example, they cover modification of the file,\n            and distribution when not linked into another program.)\n         \u003c/p\u003e\n\n         \u003cp\u003e\n            Note that people who make modified versions of this\n            file are not obligated to grant this special exception\n            for their modified versions; it is their choice whether\n            to do so. The GNU Lesser General Public License gives\n            permission to release a modified version without this\n            exception; this exception also makes it possible to release\n            a modified version which carries forward this exception.\n         \u003c/p\u003e\n\n      ",
+    "name":  "GCC    Runtime Library exception 2.0 - note variant",
+    "headerHtml":  null,
+    "isException":  true
+}

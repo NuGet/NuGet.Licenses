@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "This exception is the original exception added to the GNOME Videos (né totem\") project in 2005. Use GStreamer-exception-2008 instead.",
+    "html":  "\n      \u003cp\u003e\n\tThe \u003cvar class=\"replaceable-license-text\"\u003e Totem\u003c/var\u003e project hereby grant permission for non-gpl compatible GStreamer plugins to be used and distributed together with GStreamer and \u003cvar class=\"replaceable-license-text\"\u003e Totem\u003c/var\u003e. This permission \n\u003cvar class=\"replaceable-license-text\"\u003e are\u003c/var\u003e above and beyond the permissions granted by the GPL license \u003cvar class=\"replaceable-license-text\"\u003e Totem\u003c/var\u003e is covered by.\n      \u003c/p\u003e\n\n    ",
+    "name":  "GStreamer Exception (2005)",
+    "headerHtml":  null,
+    "isException":  true
+}

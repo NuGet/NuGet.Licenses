@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "Typically used with MIT.",
+    "html":  "\n      \u003cdiv class=\"optional-license-text\"\u003e \u003cp\u003e--- Optional exception to the license ---\u003c/p\u003e\n\u003c/div\u003e\n      \u003cp\u003e\n\tAs an exception, if, as a result of your compiling your source code, portions\n\tof this Software are embedded into a machine-executable object form of such\n\tsource code, you may redistribute such embedded portions in such object form\n\twithout including the above copyright and permission notices.\n      \u003c/p\u003e\n\n   ",
+    "name":  "fmt exception",
+    "headerHtml":  null,
+    "isException":  true
+}

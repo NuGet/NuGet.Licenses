@@ -1,0 +1,7 @@
+﻿{
+    "comments":  null,
+    "html":  "\n      \u003cp\u003e\n         Specific permission is also granted to link Asterisk\n         with OpenSSL, OpenH323 UniMRCP, and/or the UW IMAP\n         Toolkit and distribute the resulting binary files.\n      \u003c/p\u003e\n\n      \u003cp\u003e\n         In addition, Asterisk implements several management/control protocols.\n         This includes the Asterisk Manager Interface (AMI), the Asterisk\n         Gateway Interface (AGI), and the Asterisk REST Interface (ARI).\n         It is our belief that applications using these protocols to manage\n         or control an Asterisk instance do not have to be licensed under\n         the GPL or a compatible license, as we believe these protocols\n         do not create a \u0026apos;derivative work\u0026apos; as referred to in the GPL.\n         However, should any court or other judiciary body find that these\n         protocols do fall under the terms of the GPL, then we hereby grant\n         you a license to use these protocols in combination with Asterisk\n         in external applications licensed under any license you wish.\n      \u003c/p\u003e\n\n   ",
+    "name":  "Asterisk linking protocols exception",
+    "headerHtml":  null,
+    "isException":  true
+}

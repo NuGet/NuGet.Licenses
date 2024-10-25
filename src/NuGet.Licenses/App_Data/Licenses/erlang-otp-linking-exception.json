@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "This exception is based on the suggested template from the Free Software Foundation\u0027s FAQ about the GPL.",
+    "html":  "\n\t\u003cdiv class=\"optional-license-text\"\u003e \n\t\u003cp\u003e\n\t  Additional permission under GNU AGPL version 3 section 7\n\t\u003c/p\u003e\n\n\t\u003c/div\u003e\n      \u003cp\u003e\n\tIf you modify this Program, or any covered work, by linking or\n\tcombining it with runtime libraries of Erlang/OTP as released by\n\tEricsson on https://www.erlang.org (or a modified version of these\n\tlibraries), containing parts covered by the terms of the Erlang Public\n\tLicense (https://www.erlang.org/EPLICENSE),\n\t\u003cvar class=\"replaceable-license-text\"\u003e the licensors of this Program\u003c/var\u003e\n\tgrant you additional permission to convey the resulting work\n\twithout the need to license the runtime libraries of Erlang/OTP under\n\tthe \u003cvar class=\"replaceable-license-text\"\u003e [name of library\u0026apos;s license]\u003c/var\u003e.\n\tCorresponding Source for a non-source form of such a combination shall include\n\tthe source code for the parts of the runtime libraries of Erlang/OTP used as\n\twell as that of the covered work.\n      \u003c/p\u003e\n\n    ",
+    "name":  "Erlang/OTP Linking Exception",
+    "headerHtml":  null,
+    "isException":  true
+}

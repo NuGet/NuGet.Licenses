@@ -1,0 +1,7 @@
+﻿{
+    "comments":  "This is very similar to openvpn-openssl-exception with a couple key differences.",
+    "html":  "\n         \u003cp\u003e\n            In addition, as a special exception, \u003cvar class=\"replaceable-license-text\"\u003e AUTHOR\u003c/var\u003e gives permission\n            to link \u003cvar class=\"replaceable-license-text\"\u003e the code of its release of x11vnc\u003c/var\u003e with the OpenSSL project\u0026apos;s\n            \u0026quot;OpenSSL\u0026quot; library (or with modified versions of it that use the\n            same license as the \u0026quot;OpenSSL\u0026quot; library), and \u003cvar class=\"optional-license-text\"\u003e to\u003c/var\u003e distribute the linked\n            executables. You must obey the GNU General Public License in all\n            respects for all of the code used other than \u0026quot;OpenSSL\u0026quot;. If you\n            modify \u003cvar class=\"replaceable-license-text\"\u003e this file\u003c/var\u003e, you may extend this exception to your version\n            of the file, but you are not \u003cvar class=\"replaceable-license-text\"\u003e obligated\u003c/var\u003e to do so. If you do not\n            wish to do so, delete this exception statement from your version.\n         \u003c/p\u003e\n\n      ",
+    "name":  "x11vnc OpenSSL Exception",
+    "headerHtml":  null,
+    "isException":  true
+}
