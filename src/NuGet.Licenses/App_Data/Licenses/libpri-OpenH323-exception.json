@@ -1,7 +1,0 @@
-﻿{
-    "comments":  null,
-    "html":  "\n         \u003cp\u003e\n            As a special exception, libpri may also be linked to the\n            OpenH323 library, so long as the entirity of the derivative\n            work (as defined within the GPL) is licensed either under\n            the MPL of the OpenH323 license or the GPL of libpri.\n         \u003c/p\u003e\n\n      ",
-    "name":  "libpri OpenH323 exception",
-    "headerHtml":  null,
-    "isException":  true
-}

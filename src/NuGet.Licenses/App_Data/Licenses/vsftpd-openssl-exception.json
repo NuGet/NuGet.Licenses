@@ -1,7 +1,0 @@
-﻿{
-    "comments":  null,
-    "html":  "\n      \u003cvar class=\"optional-license-text\"\u003e \n         vsftpd is licensed under version 2 of the GNU GPL.\n      \u003c/var\u003e\n      \u003cp\u003e\n         As copyright holder, I give permission for vsftpd to be\n         linked to the OpenSSL libraries. This includes permission for\n         vsftpd binaries to be distributed linked against the OpenSSL\n         libraries. All other obligations under the GPL v2 remain intact.\n      \u003c/p\u003e\n\n   ",
-    "name":  "vsftpd OpenSSL exception",
-    "headerHtml":  null,
-    "isException":  true
-}

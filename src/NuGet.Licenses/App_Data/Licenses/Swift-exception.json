@@ -1,7 +1,0 @@
-﻿{
-    "comments":  "This exception was created specifically to be used with Apache-2.0",
-    "html":  "\n\t  \u003cdiv class=\"optional-license-text\"\u003e \n\t\t\u003cp\u003e\n            \u003cvar class=\"replaceable-license-text\"\u003e \u003c/var\u003e\n\t\t    Runtime Library Exception to the Apache 2.0 License:\n\t\t    \u003cvar class=\"replaceable-license-text\"\u003e \u003c/var\u003e\n\t\t\u003c/p\u003e\n\n\t  \u003c/div\u003e\n      \u003cp\u003e As an exception, if you use this Software to compile your source code and\n        portions of this Software are embedded into the binary product as a result,\n        you may redistribute such product without providing attribution as would\n        otherwise be required by Sections 4(a), 4(b) and 4(d) of the License.\u003c/p\u003e\n\n\t  ",
-    "name":  "Swift Exception",
-    "headerHtml":  null,
-    "isException":  true
-}

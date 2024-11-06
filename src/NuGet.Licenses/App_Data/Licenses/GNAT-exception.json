@@ -1,7 +1,0 @@
-﻿{
-    "comments":  "This exception has been used with both versions 2.0 and 3.0 of the GPL.",
-    "html":  "\n         \u003cp\u003e\n\t\tAs a special exception, if other files instantiate generics from this\n\t\tunit, or you link this unit with other files to produce an executable,\n\t\tthis unit does not by itself cause the resulting executable to be\n\t\tcovered by the GNU General Public License. This exception does not\n\t\thowever invalidate any other reasons why the executable file might be\n\t\tcovered by the GNU Public License.\n         \u003c/p\u003e\n\n      ",
-    "name":  "GNAT exception",
-    "headerHtml":  null,
-    "isException":  true
-}

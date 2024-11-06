@@ -1,7 +1,0 @@
-﻿{
-    "comments":  "This exception has been used with BSD-3-Clause.",
-    "html":  "\n\t\u003cp\u003e\n\tEXEMPTION FOR BINARY LIBRARY-LIKE PACKAGES\u003cbr /\u003e\n\n\t------------------------------------------\n\t\u003c/p\u003e\n\n\t\u003cp\u003e\n\tThe second condition in the BSD licence (covering binary redistributions) does\n\tnot apply all the way down a chain of software. If binary package A includes\n\tPCRE2, it must respect the condition, but if package B is software that\n\tincludes package A, the condition is not imposed on package B unless it uses\n\tPCRE2 independently.\n\t\u003c/p\u003e\n\n\t",
-    "name":  "PCRE2 exception",
-    "headerHtml":  null,
-    "isException":  true
-}

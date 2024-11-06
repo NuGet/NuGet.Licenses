@@ -1,7 +1,0 @@
-﻿{
-    "comments":  "This exception is closely similar to GNU-compiler-exception but delineates that the library is compiled with a Free Software compiler, which is slightly broader than a GNU compiler.",
-    "html":  "\n      \u003cp\u003e\n         As a special exception, if you link this library with other\n         files, compiled with a Free Software compiler, to produce an\n         executable, this library does not by itself cause the resulting\n         executable to be covered by the GNU General Public License. This\n         exception does not however invalidate any other reasons why the\n         executable file might be covered by the GNU General Public License.\n      \u003c/p\u003e\n\n   ",
-    "name":  "SWI exception",
-    "headerHtml":  null,
-    "isException":  true
-}

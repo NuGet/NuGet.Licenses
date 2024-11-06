@@ -1,7 +1,0 @@
-﻿{
-    "comments":  "This exception is primarily used with QPL-1.0-INRIA-2004",
-    "html":  "\n         \u003cp\u003e\n            As a special exception to the Q Public License, you may develop\n            application programs, reusable components and other software items\n            that link with the original or modified versions of the\n            \u003cvar class=\"replaceable-license-text\"\u003e Software\u003c/var\u003e\n            and are not made available to the general public, without any of the\n            additional requirements listed in clause 6c of the Q Public license.\n         \u003c/p\u003e\n\n      ",
-    "name":  "INRIA QPL 1.0 2004 variant exception",
-    "headerHtml":  null,
-    "isException":  true
-}
