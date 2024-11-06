@@ -1,6 +1,6 @@
 ﻿{
     "comments":  null,
-    "html":  "\n      \u003cp\u003eAs a special exception to the GNU General Public License, if you\n         distribute this file as part of a program or library that is\n         built using GNU Libtool, you may include this file under the\n         same distribution terms that you use for the rest of that\n         program.\u003c/p\u003e\n\n    ",
+    "html":  "\n      \u003cp\u003eAs a special exception to the GNU \u003cvar class=\"optional-license-text\"\u003e Lesser\u003c/var\u003e General Public License, if you\n         distribute this file as part of a program or library that is\n         built using GNU Libtool, you may include this file under the\n         same distribution terms that you use for the rest of that\n         program.\u003c/p\u003e\n\n    ",
     "name":  "Libtool Exception",
     "headerHtml":  null,
     "isException":  true
