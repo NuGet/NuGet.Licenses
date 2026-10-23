@@ -22,7 +22,7 @@ namespace NuGet.Licenses.Models
         public string Value { get; }
 
         /// <summary>
-        /// Type of the license expression option
+        /// Type of the license expression segment
         /// </summary>
         public CompositeLicenseExpressionSegmentType Type { get; }
     }

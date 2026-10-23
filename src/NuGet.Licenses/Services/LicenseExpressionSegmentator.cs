@@ -15,7 +15,7 @@ namespace NuGet.Licenses.Services
         /// used in the expression (omitting all parentheses and whitespace)
         /// </summary>
         /// <param name="licenseExpressionRoot">Root of the license expression tree</param>
-        /// <returns>The list of license expression token in the order they appeared in the original expression.</returns>
+        /// <returns>The list of license expression tokens in the order they appeared in the original expression.</returns>
         public List<CompositeLicenseExpressionSegment> GetLicenseExpressionSegments(LicenseOperator licenseExpressionRoot)
         {
             if (licenseExpressionRoot == null)

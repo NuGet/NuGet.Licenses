@@ -34,7 +34,7 @@ namespace NuGet.Licenses.Services
         /// expression represented by that tree. Only meaningful (license or exceptions ids and operators) 
         /// "segments" are returned by this method.
         /// </summary>
-        /// <param name="licenseExpressionRoot">Root of the license expresion tree</param>
+        /// <param name="licenseExpressionRoot">Root of the license expression tree</param>
         /// <returns>The list of the segments restored from the tree.</returns>
         /// <remarks>
         /// This method only returns "segments" of types <see cref="CompositeLicenseExpressionSegmentType.LicenseIdentifier"/>,
